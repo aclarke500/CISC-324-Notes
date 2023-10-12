@@ -1,0 +1,163 @@
+<h3>6.2 The Critical-Section Problem</h3>
+<ul>
+    <li>The critical-section problem involves designing a protocol that processes can use to synchronize their activities and cooperatively share data.</li>
+    <li>Each process has a segment of code, called a critical section, where it may be accessing and updating data shared with at least one other process.</li>
+    <li>When one process is executing in its critical section, no other process should be allowed to execute in its critical section.</li>
+    <li>The general structure of a typical process involves an entry section, critical section, exit section, and remainder section.</li>
+    <li>A solution to the critical-section problem must satisfy three requirements: mutual exclusion, progress, and bounded waiting.</li>
+    <li>Mutual exclusion ensures that only one process at a time is active in its critical section.</li>
+    <li>Progress ensures that if no process is executing in its critical section and some processes wish to enter their critical sections, only those processes that are not executing in their remainder sections can participate in deciding which will enter its critical section next, and this selection cannot be postponed indefinitely.</li>
+    <li>Bounded waiting limits how much time a program will wait before it can enter its critical section.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=335">Pages: 335-337</a>
+<h3>6.5 Mutex Locks</h3>
+<ul>
+    <li>Mutex locks are used to protect critical sections and prevent <a href="https://stackoverflow.com/questions/34510/what-is-a-race-condition">race conditions </a>. A process must acquire the lock before entering a critical section and releases the lock when it exits the critical section.</li>
+    <li>The `acquire()` function acquires the lock, and the `release()` function releases the lock.</li>
+    <li>A mutex lock has a boolean variable `available` whose value indicates if the lock is available or not. If the lock is available, a call to `acquire()` succeeds, and the lock is then considered unavailable.</li>
+    <li>Mutex locks are also known as spinlocks because the process "spins" while waiting for the lock to become available. Spinlocks have an advantage in that no context switch is required when a process must wait on a lock, and a context switch may take considerable time.</li>
+    <li>In certain circumstances on multicore systems, spinlocks are the preferable choice for locking. If a lock is to be held for a short duration, one thread can "spin" on one processing core while another thread performs its critical section on another core.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=345">Pages: 345-347</a>
+
+<h3>6.6 Semaphores</h3>
+<h2>Overview</h2>
+<p>Semaphores are a terrible name for a mildy complicated idea. They are a counter/boolean that indicates the number of processes avaialble.</p>
+<ul>
+    <li>A semaphore S is an integer variable that, apart from initialization, is accessed only through two standard atomic operations: wait() and signal().</li>
+    <li>The wait operation: 
+      <code><br>wait(S) <tab> { <br>  while <br> (S <= 0)<br> /* Wait until value of S (pointer) changes*/;<br>  /*
+        When S has finally reached the exist condition, the code runs, and takes the space in S.*/ <br>S--; } </tab></code></li>
+    <li>The signal operation: <code>signal(S) { S++; }</code> <br> The code here increments S, letting the computer know it's done and letting a wait() terminate.</li>
+    <li>Semaphores can be binary or counting. Binary semaphores take the value 0 or 1 and can be used for implementing mutex locks. Counting semaphores can have an arbitrary value and can be used to control access to a given resource consisting of a finite number of instances.</li>
+    <li>Semaphores can be used to solve various synchronization problems and can be implemented in a high-level programming language given the machine support of atomic operations.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=347">Pages: 347-348</a>
+
+<h4>6.6.1 Semaphore Usage</h4>
+<ul>
+    <li>Operating systems often distinguish between counting and binary semaphores. The value of a counting semaphore can range over an unrestricted domain. The value of a binary semaphore can range only between 0 and 1.</li>
+    <li>Binary semaphores behave similarly to mutex locks.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=348">Page: 348</a>
+
+<h4>6.6.2 Semaphore Implementation</h4>
+<ul>
+    <li>Semaphore values may be negative, whereas semaphore values are never negative under the classical definition of semaphores with busy waiting.</li>
+    <li>If a semaphore value is negative, its magnitude is the number of processes waiting on that semaphore.</li>
+    <li>The list of waiting processes can be easily implemented by a link field in each process control block (PCB).</li>
+    <li>I believe a link field is simply a linked list.</li>
+    <li>Each semaphore contains an integer value and a pointer to a list of PCBs.</li>
+    <li>One way to add and remove processes from the list so as to ensure bounded waiting is to use a FIFO queue, where the semaphore contains both head and tail pointers to the queue.</li>
+    <li><code>wait() & acquire()</code> are not interuptable, to ensure efficacy. </li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=350">Page: 350</a>
+
+<h3>6.7 Monitors and Monitor Usage</h3>
+<ul>
+    <li>Monitors provide a high-level abstraction that allows for the convenient synchronization of processes.</li>
+    <li>Monitors use condition variables to allow processes to wait for certain conditions to become true and to signal one another when conditions have been set to true.</li>
+    <li>Monitors ensure mutual exclusion within a monitor and can be implemented using semaphores.</li>
+    <li>Condition variables within a monitor can be used to make a process wait until a particular condition is true. The condition is tested within the monitor, and if it is false, the process waits on a condition variable.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=351">Pages: 351-355</a>
+
+<h4>6.7.1 Monitor Usage</h4>
+<ul>
+    <li>Monitors are used to ensure that a process can safely execute in its critical section by excluding all other processes from executing in their critical sections.</li>
+    <li>Condition variables are used to allow a process to wait within the monitor for a particular condition to become true.</li>
+    <li>Condition variables are always used in conjunction with a unique lock, which ensures that a process can test the condition in mutual exclusion.</li>
+    <li>Monitors can be used to solve various synchronization problems, such as the bounded-buffer problem, the readers-writers problem, and the dining-philosophers problem.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=351">Pages: 351-355</a>
+
+<h4>6.7.2 Monitor Implementation</h4>
+<ul>
+    <li>Monitors can be implemented using semaphores to ensure mutual exclusion and synchronization.</li>
+    <li>A monitor can be defined as a set of procedures that are protected by a mutual-exclusion lock.</li>
+    <li>Condition variables within a monitor can be implemented using queues to manage the processes that are waiting for a condition to become true.</li>
+    <li>When a process waits on a condition, it is added to the queue for that condition and the mutual-exclusion lock for the monitor is released.</li>
+    <li>When a process signals on a condition, another process is removed from the queue for that condition and is resumed, reacquiring the mutual-exclusion lock for the monitor.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=351">Pages: 351-355</a>
+<h3>6.8 Liveness</h3>
+<ul>
+    <li>Liveness refers to properties ensuring that processes make progress during their execution life cycle.</li>
+    <li>Indefinite waiting can occur, violating the progress and bounded-waiting criteria.</li>
+    <li>Deadlock is a situation where every process in a set is waiting for an event that can only be caused by another process in the set.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=358">Pages: 358</a>
+
+<h4>6.8.1 Deadlock</h4>
+<ul>
+    <li>Deadlock can occur when implementing a semaphore with a waiting queue, resulting in two or more processes waiting indefinitely for an event.</li>
+    <li>Deadlocks and other forms of liveness failures are becoming more challenging with the demand for increased concurrency and parallelism on multicore systems.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=358">Pages: 358</a>
+
+<h4>6.8.2 Priority Inversion</h4>
+<ul>
+    <li>Priority inversion arises when a higher-priority process needs to read or modify kernel data being accessed by a lower-priority process.</li>
+    <li>The higher-priority process must wait for the lower-priority process to finish with the resource, and the situation complicates if the lower-priority process is preempted in favor of another process with a higher priority.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=359">Pages: 359</a>
+<h3>8 Deadlocks</h3>
+<ul>
+    <li>Deadlock is a situation where every process in a set is waiting for an event that can only be caused by another process in the set.</li>
+    <li>Deadlocks can occur when several threads compete for a finite number of resources and enter a waiting state.</li>
+    <li>Deadlocks can be characterized by four necessary conditions: mutual exclusion, hold and wait, no preemption, and circular wait.</li>
+    <li>Deadlocks can be modeled with resource-allocation graphs, where a cycle indicates deadlock.</li>
+    <li>Deadlocks can be prevented by ensuring that one of the four necessary conditions for deadlock cannot occur.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=414">Pages: 414-415</a>
+
+<h4>8.2 Deadlock in Multithreaded Applications</h4>
+<ul>
+    <li>Deadlock can occur in multithreaded Pthread programs using POSIX mutex locks.</li>
+    <li>If a thread attempts to acquire a locked mutex, the call to pthread mutex lock() blocks the thread until the owner of the mutex lock invokes pthread mutex unlock().</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=417">Page: 417</a>
+
+<h4>8.3 Deadlock Characterization</h4>
+<ul>
+    <li>Deadlock can be characterized by four necessary conditions: mutual exclusion, hold and wait, no preemption, and circular wait.</li>
+    <li>Mutual exclusion: At least one resource must be held in a nonsharable mode.</li>
+    <li>Hold and wait: A thread must be holding at least one resource and waiting to acquire additional resources that are currently being held by other threads.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=419">Page: 419</a>
+
+<h4>8.5 Deadlock Prevention</h4>
+<ul>
+    <li>Deadlocks can be prevented by ensuring that one of the four necessary conditions for deadlock cannot occur.</li>
+    <li>Deadlocks can be described more precisely in terms of a directed graph called a system resource-allocation graph.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=421">Page: 421</a>
+
+<h4>8.8 Deadlock Detection</h4>
+<ul>
+    <li>Deadlocks can be detected by invoking the deadlock-detection algorithm every time a request for allocation cannot be granted immediately.</li>
+    <li>Deadlocks occur only when some thread makes a request that cannot be granted immediately.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=439">Page: 439</a>
+
+<h4>8.9 Summary</h4>
+<ul>
+    <li>Deadlock occurs when every process in a set is waiting for an event that can only be caused by another process in the set.</li>
+    <li>There are four necessary conditions for deadlock: mutual exclusion, hold and wait, no preemption, and circular wait.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=441">Page: 441</a>
+<style>
+  .tab {
+      display: none;
+  }
+  .tab-button {
+      padding: 10px;
+      cursor: pointer;
+  }
+  .tab-button.active {
+      background-color: #ddd;
+  }
+  .tab.active {
+      display: block;
+  }
+</style>

@@ -1,0 +1,99 @@
+<h3>5.1 Basic Concepts</h3>
+<h4>5.1.3 Preemptive and Nonpreemptive Scheduling</h4>
+<ul>
+    <li>CPU-scheduling decisions may take place under four circumstances: when a process switches from the running state to the waiting state, from running to ready, from waiting to ready, and when a process terminates.</li>
+    <li>Scheduling can be either preemptive or nonpreemptive. Preemptive scheduling allows the CPU to be taken away from a process, whereas nonpreemptive scheduling requires a process to voluntarily relinquish control of the CPU.</li>
+    <li>Most modern operating systems, including Windows, macOS, Linux, and UNIX, use preemptive scheduling algorithms.</li>
+    <li>Preemptive scheduling can result in race conditions when data are shared among several processes.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=268">Pages: 268,269</a>
+
+<h3>5.2 Scheduling Criteria</h3>
+<ul>
+    <li>Different CPU-scheduling algorithms have different properties, and the choice of a particular algorithm may favor one class of processes over another.</li>
+    <li>Many criteria have been suggested for comparing CPU-scheduling algorithms, including CPU utilization, throughput, turnaround time, waiting time, and response time.</li>
+    <li>CPU utilization aims to keep the CPU as busy as possible, conceptually ranging from 0 to 100 percent.</li>
+    <li>Throughput is concerned with the number of processes that complete their execution per time unit.</li>
+    <li>Turnaround time is the interval from the time of submission of a process to the time of completion.</li>
+    <li>Waiting time is the sum of the periods spent waiting in the ready queue.</li>
+    <li>Response time is the time from the submission of a request until the first response is produced.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=271">Pages: 271</a>
+
+<h3>5.3 Scheduling Algorithms</h3>
+<h4>5.3.1 First-Come, First-Served (FCFS) Scheduling</h4>
+<ul>
+    <li>FCFS scheduling is the simplest scheduling algorithm.</li>
+    <li>It can cause short processes to wait for very long processes.</li>
+    <li>FCFS scheduling is nonpreemptive, meaning once the CPU has been allocated to a process, the process keeps the CPU until it releases the processor, either by terminating or by requesting I/O.</li>
+    <li>The issues with FCFS scheduling can be particularly problematic in a dynamic system, where expected CPU and I/O burst times are not known in advance.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=316">Pages: 316,317</a>
+
+<h4>5.3.2 Shortest-Job-First (SJF) Scheduling</h4>
+<ul>
+    <li>Shortest-job-first (SJF) scheduling is provably optimal, providing the shortest average waiting time. However, implementing SJF scheduling can be difficult because predicting the length of the next CPU burst is challenging.</li>
+    <li>SJF scheduling can be either preemptive or nonpreemptive. Preemptive SJF scheduling (also known as shortest-remaining-time-first scheduling) may preempt the currently executing process if a new process arrives with a shorter next CPU burst.</li>
+    <li>Nonpreemptive SJF scheduling allows the currently running process to finish its CPU burst even if a new process with a shorter next CPU burst arrives.</li>
+    <li>Although SJF scheduling gives the minimum average waiting time, it cannot be implemented at the level of CPU scheduling due to the difficulty in predicting the length of the next CPU burst. Approximations of SJF scheduling might be used instead.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=274">Pages: 274,275</a>
+
+<h4>5.3.3 Round Robin Scheduling</h4>
+<ul>
+    <li>Round Robin (RR) scheduling allocates the CPU to each process for a time quantum. If a process does not relinquish the CPU before its time quantum expires, it is preempted, and another process is scheduled to run for a time quantum.</li>
+    <li>The ready queue is treated as a circular queue, and the CPU scheduler goes around the ready queue, allocating the CPU to each process for a time quantum and then moving it to the back of the queue.</li>
+    <li>RR scheduling is simple, fair, and starvation-free, but it often does not provide the best possible service.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=276">Pages: 276</a>
+
+<h4>5.3.4 Priority Scheduling</h4>
+<ul>
+    <li>Priority scheduling assigns each process a priority, and the CPU is allocated to the process with the highest priority.</li>
+    <li>Processes with the same priority can be scheduled in FCFS order or using RR scheduling.</li>
+    <li>Priority scheduling can be either preemptive or nonpreemptive.</li>
+    <li>Priority scheduling can be straightforward if each process is assigned a priority externally, but assigning priorities can be complex.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=317">Pages: 317</a>
+
+<h4>5.3.5 Multilevel Queue Scheduling</h4>
+<ul>
+    <li>Multilevel queue scheduling partitions processes into several separate queues, each with its own scheduling algorithm.</li>
+    <li>Processes are permanently assigned to one queue, generally based on some property of the process, such as memory size, process priority, or process type.</li>
+    <li>Each queue may have its own scheduling algorithm, or multiple queues may use the same scheduling algorithm.</li>
+    <li>Scheduling must also be done between the queues, which is commonly implemented as fixed-priority preemptive scheduling.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=281">Pages: 281</a>
+
+<h3>5.6 Real-Time CPU Scheduling</h3>
+<ul>
+    <li>Real-time operating systems have specific scheduling needs, and they can be classified into hard and soft real-time systems.</li>
+    <li>Hard real-time systems have strict timing constraints, while soft real-time computing requires that critical processes receive priority over others.</li>
+    <li>Real-time scheduling algorithms include rate-monotonic scheduling and earliest-deadline-first (EDF) scheduling.</li>
+    <li>Rate-monotonic scheduling assigns the highest priority to the task with the shortest period, while EDF scheduling assigns the highest priority to the task with the closest deadline.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=294">Pages: 294</a>
+
+<!-- Additional information from pages 295-299 might be extracted in the next steps. -->
+<h3>5.6 Real-Time CPU Scheduling</h3>
+<h4>5.6.3 Rate-Monotonic Scheduling</h4>
+<ul>
+    <li>Rate-monotonic scheduling schedules periodic tasks using a static priority policy with preemption. If a lower-priority process is running and a higher-priority process becomes available to run, it will preempt the lower-priority process.</li>
+    <li>Each periodic task is assigned a priority inversely based on its period: the shorter the period, the higher the priority; the longer the period, the lower the priority. The rationale behind this policy is to assign a higher priority to tasks that require the CPU more often.</li>
+    <li>Rate-monotonic scheduling assumes that the processing time of a periodic process is the same for each CPU burst. That is, every time a process acquires the CPU, the duration of its CPU burst is the same.</li>
+    <li>Despite being optimal, rate-monotonic scheduling has a limitation: CPU utilization is bounded, and it is not always possible to maximize CPU resources fully. The worst-case CPU utilization for scheduling N processes is N(21/N − 1).</li>
+    <li>With one process in the system, CPU utilization is 100 percent, but it falls to approximately 69 percent as the number of processes approaches infinity. With two processes, CPU utilization is bounded at about 83 percent.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=297">Pages: 297-299</a>
+
+<h4>Priority-Based Scheduling (General Notes)</h4>
+<ul>
+    <li>Priority scheduling assigns each process a priority, and the CPU is allocated to the process with the highest priority.</li>
+    <li>Equal-priority processes are scheduled in FCFS order or using RR scheduling.</li>
+    <li>Priority scheduling can be either preemptive or nonpreemptive.</li>
+    <li>Externally assigned priorities can make priority scheduling straightforward, but assigning priorities can be complex.</li>
+    <li>Priorities can be defined either internally or externally. Internally defined priorities use some measurable quantity or quantities to compute the priority of a process.</li>
+    <li>External priorities are set by criteria outside the operating system, such as the importance of the process, the type and amount of funds being paid for computer use, the department sponsoring the work, and other factors.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=280">Pages: 280</a>
+

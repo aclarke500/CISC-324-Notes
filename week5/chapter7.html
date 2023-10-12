@@ -1,0 +1,24 @@
+
+<p>
+  Chapter 7 of "Operating System Concepts" delves into the realm of process synchronization, exploring various synchronization problems and solutions in <a href="https://www.educative.io/answers/what-is-concurrent-programming">concurrent programming</a>. The chapter introduces the concept of critical sections in concurrent processes and the need for <a href="https://www.geeksforgeeks.org/introduction-of-process-synchronization/">synchronization</a> to prevent conflicts and ensure coherent operation. It discusses classical synchronization problems like "The Bounded-Buffer Problem", "The Readers–Writers Problem", and "The Dining-Philosophers Problem", each illustrating unique challenges and solutions in process synchronization. The Bounded-Buffer Problem, for instance, discusses the synchronization between producer and consumer processes sharing a finite-size buffer, utilizing semaphores for coordination and ensuring mutual exclusion. The chapter likely extends to explore various synchronization mechanisms, solutions, and potential issues like deadlocks, providing a comprehensive overview of managing concurrent processes in an operating system.
+  </p>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=376">Pages: 375-376</a>
+  
+<h3>7.1.1 The Bounded-Buffer Problem</h3>
+<ul>
+    <li>The bounded-buffer problem is a synchronization example where the producer and consumer processes share certain data structures.</li>
+    <li>The producer and consumer share a buffer of <code>n</code> items, each capable of holding one item.</li>
+    <li>The <code>mutex</code> binary semaphore provides mutual exclusion for accesses to the buffer pool and is initialized to the value 1.</li>
+    <li>The <code>empty</code> and <code>full</code> semaphores count the number of empty and full buffers, respectively. The semaphore <code>empty</code> is initialized to the value <code>n</code>; the semaphore <code>full</code> is initialized to the value 0.</li>
+    <li>The producer produces full buffers for the consumer, and the consumer produces empty buffers for the producer.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=376">Pages: 375-376</a>
+<h3>7.1.2 The Readers –Writers Problem</h3>
+<ul>
+    <li>The Readers–Writers Problem involves synchronization between processes that only read and those that write (read and write) a shared database.</li>
+    <li>Readers can access the shared data simultaneously without adverse effects, but writers and any other process (reader or writer) accessing the database simultaneously can cause issues.</li>
+    <li>Writers must have exclusive access to the shared database while writing to prevent difficulties.</li>
+    <li>The problem has several variations involving priorities, with the simplest one requiring that no reader be kept waiting unless a writer has already obtained permission to use the shared object.</li>
+    <li>Another variant, the second readers–writers problem, requires that a writer performs its write as soon as possible, meaning if a writer is waiting to access the object, no new readers may start reading.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=377">Pages: 376-377</a>
