@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Extra Slide Shit</title>
+</head>
+<h1>Week 3</h1>
+  <button onclick="window.location.href = '../week3/chapter5.html'">Chapter 5</button>
+  <button onclick="window.location.href = '../week3/chapter6.html'">Chapter 6</button>
+  <button onclick="window.location.href = '../week3/SlideShit.html'"> Extra Shit from Slides</button>
+  <h1>Week 5</h1>
+  <button onclick="window.location.href = '../week5/chapter7.html'">Chapter 7</button>
+  <button onclick="window.location.href = '../week5/chapter8.html'">Chapter 8</button>
+<body>
+  <h2>
+    Average waiting time
+  </h2>
+  <p>Pretty straightforwad, sum up the waiting time for a process and then divide by the number of processes...</p>
+  <h2>Predicting Burst Times</h2>
+<p>
+    The concept of predicting burst times revolves around estimating when a CPU will experience a 'burst' or surge in activity.
+</p>
+
+<h3>Why Predict Burst Times?</h3>
+<p>
+    It's often impossible to know the exact burst times in advance. However, by making accurate predictions, we can optimize CPU scheduling and enhance system performance. These predictions are typically based on the history of previous bursts.
+</p>
+
+<h3>Exponential Average Based Prediction</h3>
+<p>
+    One of the common methods to predict burst times is using an exponential average. The formula is as follows:
+</p>
+<ul>
+    <li><strong>τ<sub>n</sub>:</strong> Predicted value for the n-th burst.</li>
+    <li><strong>t<sub>n</sub>:</strong> Actual time of the n-th burst.</li>
+    <li><strong>τ<sub>n+1</sub> = α.t<sub>n</sub> + (1 - α).τ<sub>n</sub></strong>: This equation combines the actual time of the current burst and the predicted time of the current burst to predict the time of the next burst.</li>
+    <li>The coefficient <strong>α</strong> (alpha) is typically set to 0.5. It determines the weight given to the most recent burst time. An alpha value closer to 1 gives more weight to the recent burst, while a value closer to 0 gives more weight to the historical predicted values.</li>
+</ul>
+
+<h3>Graphical Representation</h3>
+<p>
+    The graph depicts the CPU burst times (<strong>t<sub>i</sub></strong>) and their respective predictions (<strong>τ<sub>i</sub></strong>). The 'guess' line shows the predicted burst times while the CPU burst line showcases the actual burst times.
+</p>
+<img src="../predicting-burst-times.png">
+
+
+<h2>Process Precedence Graphs</h2>
+<img src="../process-precedence-graphs.png">
+
+<p>
+    The <strong>Process Precedence Graphs</strong> (PPG) represent the orderly execution of bursts and critical sections. They address the fundamental problem of process synchronization which is defined by <em>precedence relationships</em>.
+</p>
+
+<h3>Key Points:</h3>
+<ul>
+    <li>
+        PPG is a directed graph that visually expresses the execution precedence relationship among multiple processes.
+    </li>
+    <li>
+        If process A precedes process B (notated as A → B), then B cannot start until A completes.
+    </li>
+    <li>
+        The precedence can be expressed using the syntax <code>CoBegin</code> and <code>CoEnd</code>.
+    </li>
+</ul>
+
+<h4>Example Code Representation:</h4>
+<pre>
+A ;
+CoBegin
+    ParBegin
+        B, C, D
+    ParEnd
+E ;
+</pre>
+
+<h3>Graphical Representation:</h3>
+<p>
+    In the provided graph, process A must finish before B, C, or D can begin. After B, C, and D are completed, process E can then commence. The lower graph indicates an exercise that might involve the relationships among processes P1, P2, P3, and P4.
+</p>
+
+<p><strong>Exercise:</strong> Users are encouraged to write the code representation for the depicted graph.</p>
+
+</body>
+</html>
+
+<style>
+  img{
+    height: 400px;
+  }
+</style>

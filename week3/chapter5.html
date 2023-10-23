@@ -1,6 +1,7 @@
 <h1>Week 3</h1>
   <button onclick="window.location.href = 'chapter5.html'">Chapter 5</button>
   <button onclick="window.location.href = 'chapter6.html'">Chapter 6</button>
+  <button onclick="window.location.href = '../week3/SlideShit.html'"> Extra Shit from Slides</button>
   <h1>Week 5</h1>
   <button onclick="window.location.href = '../week5/chapter7.html'">Chapter 7</button>
   <button onclick="window.location.href = '../week5/chapter8.html'">Chapter 8</button>
@@ -22,12 +23,18 @@
 <h3>5.2 Scheduling Criteria</h3>
 <ul>
     <li>Different CPU-scheduling algorithms have different properties, and the choice of a particular algorithm may favor one class of processes over another.</li>
-    <li>Many criteria have been suggested for comparing CPU-scheduling algorithms, including CPU utilization, throughput, turnaround time, waiting time, and response time.</li>
     <li>CPU utilization aims to keep the CPU as busy as possible, conceptually ranging from 0 to 100 percent.</li>
-    <li>Throughput is concerned with the number of processes that complete their execution per time unit.</li>
-    <li>Turnaround time is the interval from the time of submission of a process to the time of completion.</li>
-    <li>Waiting time is the sum of the periods spent waiting in the ready queue.</li>
-    <li>Response time is the time from the submission of a request until the first response is produced.</li>
+    <li>Many criteria have been suggested for comparing CPU-scheduling algorithms, including CPU utilization, throughput, turnaround time, waiting time, and response time.</li>
+    <ul>
+      <li> <b>Throughput: </b>Throughput is concerned with the number of processes that complete their execution per time unit.</li>
+<li> <b>Turnaround Time: </b>Turnaround time is the interval from the time of submission of a process to the time of completion.</li>
+<li> <b>Waiting Time: </b>Waiting time is the sum of the periods spent waiting in the ready queue.</li>
+<li> <b>Response Time: </b>Response time is the time from the submission of a request until the first response is produced.</li>
+    </ul>
+    
+    
+    
+   
 </ul>
 <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=271">Pages: 271</a>
 
@@ -87,14 +94,40 @@
 
 <!-- Additional information from pages 295-299 might be extracted in the next steps. -->
 <h3>5.6 Real-Time CPU Scheduling</h3>
-<h4>5.6.3 Rate-Monotonic Scheduling</h4>
+<h2>Rate-Monotonic Scheduling (Section 5.6.3)</h2>
+
+<p>
+The rate-monotonic scheduling algorithm schedules periodic tasks using a static priority policy with preemption. If a lower-priority process is running and a higher-priority process becomes available to run, it will preempt the lower-priority process. Upon entering the system, each periodic task is assigned a priority inversely based on its period. The shorter the period, the higher the priority; the longer the period, the lower the priority. The rationale behind this policy is to assign a higher priority to tasks that require the CPU more often.
+</p>
+<p>
+Rate-monotonic scheduling assumes that the process's period and processing time are constant and known in advance. The scheduler can then determine the scheduling feasibility for a set of processes to ensure that each process can meet its deadline requirements.
+</p>
+<figure>
+    <img style="width: 1000px;"src="../Figure5.22.png" alt="Rate-monotonic scheduling illustration">
+    <figcaption>Figure 5.22: Rate-monotonic scheduling.</figcaption>
+</figure>
+<p>
+In an example, suppose we have two processes, P1 and P2, with their respective periods and CPU bursts. Using rate-monotonic scheduling, P1 is assigned a higher priority than P2 if P1's period is shorter than P2's. The execution of these processes is shown in Figure 5.22. P1 starts first and meets its first deadline, followed by P2. The system remains idle until P1 is scheduled again.
+</p>
+<p>
+Rate-monotonic scheduling is considered optimal in the sense that if a set of processes cannot be scheduled by this algorithm, they cannot be scheduled by any other algorithm that assigns static priorities. However, there are situations where rate-monotonic scheduling may not guarantee that processes meet their deadlines, as illustrated in Figure 5.23.
+</p>
+<figure>
+    <img style="width: 1000px;"src="../Figure5.23.png" alt="Missing deadlines with rate-monotonic scheduling">
+    <figcaption>Figure 5.23: Missing deadlines with rate-monotonic scheduling.</figcaption>
+</figure>
+<p>
+Despite being optimal, rate-monotonic scheduling has a limitation: CPU utilization is bounded, and it's not always possible to maximize CPU resources fully. The worst-case CPU utilization for scheduling N processes is <code>N(2^(1/N)-1)</code>. With one process, CPU utilization is 100%, but it falls to approximately 69% as the number of processes approaches infinity. With two processes, CPU utilization is bounded at about 83%.
+</p>
+
+<!-- <h4>5.6.3 Rate-Monotonic Scheduling</h4>
 <ul>
     <li>Rate-monotonic scheduling schedules periodic tasks using a static priority policy with preemption. If a lower-priority process is running and a higher-priority process becomes available to run, it will preempt the lower-priority process.</li>
     <li>Each periodic task is assigned a priority inversely based on its period: the shorter the period, the higher the priority; the longer the period, the lower the priority. The rationale behind this policy is to assign a higher priority to tasks that require the CPU more often.</li>
     <li>Rate-monotonic scheduling assumes that the processing time of a periodic process is the same for each CPU burst. That is, every time a process acquires the CPU, the duration of its CPU burst is the same.</li>
-    <li>Despite being optimal, rate-monotonic scheduling has a limitation: CPU utilization is bounded, and it is not always possible to maximize CPU resources fully. The worst-case CPU utilization for scheduling N processes is N(21/N − 1).</li>
+    <li>Despite being optimal, rate-monotonic scheduling has a limitation: CPU utilization is bounded, and it is not always possible to maximize CPU resources fully. The worst-case CPU utilization for scheduling N processes is<code>N(2^(1/N)-1)</code></li>
     <li>With one process in the system, CPU utilization is 100 percent, but it falls to approximately 69 percent as the number of processes approaches infinity. With two processes, CPU utilization is bounded at about 83 percent.</li>
-</ul>
+</ul> -->
 <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=297">Pages: 297-299</a>
 
 <h4>Priority-Based Scheduling (General Notes)</h4>
@@ -108,3 +141,8 @@
 </ul>
 <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=280">Pages: 280</a>
 
+<style>
+  img{
+    width: 400px;
+  }
+</style>
