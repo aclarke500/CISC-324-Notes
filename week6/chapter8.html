@@ -12,11 +12,19 @@
 <h3>8.6.2 Resource-Allocation-Graph Algorithm</h3>
 <ul>
     <li>Used when there's only one instance of each resource type.</li>
+    <li>Takes the form of a graph data structure.</li>
+    <li>Edges can be of type "claim" (sort of like dependency) and "request" (is using, subset of claim).</li>
+    <li>Vertices can be of type "thread" or of type "resource", and edges are directed from threads to resources.</li>
+    <li>Represents which threads require which resources.</li>
     <li>Introduces a "claim edge" in addition to request and assignment edges. A claim edge indicates a thread may request a resource in the future.</li>
     <li>When a thread requests a resource, the claim edge converts to a request edge.</li>
+    <il>A conversion from Ti to Rj can only be completed if it does not create a cycle.</il>
 </ul>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=431">Pages: 431</a>
+<img src="../assets/8.9.png">
+<p>Safe state, a request from R2 -> T2 would fail. </p>
+<img src="../assets/8.10.png">
 
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=431">Pages: 431</a>
 <h3>8.6.3 Banker’s Algorithm</h3>
 <ul>
     <li>Used when there are multiple instances of each resource type.</li>
@@ -24,6 +32,17 @@
     <li>New threads must declare the maximum number of each resource type they may need.</li>
     <li>The system determines if allocating these resources will keep it in a safe state.</li>
 </ul>
+
+<h4>Data Structures: </h4>
+<ul>
+  <li><b>Available:</b>Mutating vector where each element represents how much of each resource may be given out at an instant.</li>
+  <li><b>Max:</b> n by m matrix, where each cell represents the maximum number of resources a thread may call. So Max[i][j] = k means thread i can call <b>at most</b> k instances of resource j.</li>
+  <li><b>Allocation:</b>n by m matrix with the same principle as max, except each cell represents how much is <b>currently</b> being used.</li>
+  <li><b>Need:</b> n by m matrix representing in each cell how much is <b>needed</b>.</li>
+</ul>
+<p>Note graph is <b>not</b> 0 based.</p>
+<img style="height: 400px;"src="../assets/8.6.png">
+
 <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=432">Pages: 432</a>
 
 <h3>8.6.3.1 Safety Algorithm</h3>
@@ -32,14 +51,25 @@
     <li>Uses vectors `Work` and `Finish` to check system state.</li>
     <li>If there's an index i such that `Finish[i]` is false and `Needi` is less than or equal to `Work`, the system is in a safe state.</li>
 </ul>
+<img class="small" src="../assets/8.11.png">
 <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=433">Pages: 433</a>
 
 <h3>8.6.3.2 Resource-Request Algorithm</h3>
+<p>Request[i] is the Request vector for thread T[i]</p>
 <ul>
     <li>Determines if resource requests can be safely granted.</li>
     <li>Checks if the request vector for a thread can be satisfied.</li>
     <li>The system decides whether to grant the request based on the current state and the safety algorithm.</li>
 </ul>
+<ol>
+  <li>If Request[i] (column) <= need, proceed. Else raise error as this means a resource has requested more than it should be able to.</li>
+  <li> If Request[i] <= Available, proceed. Else wait, since resources are not yet available.</li>
+  <li>Have the system set up a mock state and use the safety algorithm to verify it. If the transaction is completed, resources are allocated. </li>
+</ol>
+<b>Available = Available - Request[i]</b><br>
+<b>Allocation = Allocation[i] + Request[i]</b><br>
+<b>Need[i] = Need[i] - Request[i]</b><br>
+
 <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=433">Pages: 433</a>
 
 <h3>8.8 Recovery from Deadlock</h3>
@@ -77,3 +107,13 @@
     <li>This protocol is often applied to resources whose state can be easily saved and restored later, such as CPU registers and database transactions. However, it's not generally applied to resources like mutex locks and semaphores, where deadlock commonly occurs.</li>
 </ul>
 <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=440">Pages: 440</a>
+
+
+<style>
+  .small{
+    height: 150px;
+  }
+  img{
+    height: 400px;
+  } 
+</style>
