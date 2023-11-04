@@ -1,0 +1,79 @@
+<h1>Home</h1>
+<button onclick="window.location.href = '../index.html'">Back</button>
+
+<h3>8.6 Deadlock Avoidance</h3>
+<ul>
+    <li>Deadlock avoidance ensures the system never enters a deadlock state by ensuring it remains in a safe state.</li>
+    <li>Initially, the system is in a safe state. Resource allocation decisions are made to keep the system in this state.</li>
+    <li>Even if a thread requests a currently available resource, it might have to wait to ensure safety, potentially lowering resource utilization.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=431">Pages: 431</a>
+
+<h3>8.6.2 Resource-Allocation-Graph Algorithm</h3>
+<ul>
+    <li>Used when there's only one instance of each resource type.</li>
+    <li>Introduces a "claim edge" in addition to request and assignment edges. A claim edge indicates a thread may request a resource in the future.</li>
+    <li>When a thread requests a resource, the claim edge converts to a request edge.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=431">Pages: 431</a>
+
+<h3>8.6.3 Banker’s Algorithm</h3>
+<ul>
+    <li>Used when there are multiple instances of each resource type.</li>
+    <li>Ensures the bank never allocates its available cash in a way that it can't satisfy all its customers' needs.</li>
+    <li>New threads must declare the maximum number of each resource type they may need.</li>
+    <li>The system determines if allocating these resources will keep it in a safe state.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=432">Pages: 432</a>
+
+<h3>8.6.3.1 Safety Algorithm</h3>
+<ul>
+    <li>Determines if a system is in a safe state.</li>
+    <li>Uses vectors `Work` and `Finish` to check system state.</li>
+    <li>If there's an index i such that `Finish[i]` is false and `Needi` is less than or equal to `Work`, the system is in a safe state.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=433">Pages: 433</a>
+
+<h3>8.6.3.2 Resource-Request Algorithm</h3>
+<ul>
+    <li>Determines if resource requests can be safely granted.</li>
+    <li>Checks if the request vector for a thread can be satisfied.</li>
+    <li>The system decides whether to grant the request based on the current state and the safety algorithm.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=433">Pages: 433</a>
+
+<h3>8.8 Recovery from Deadlock</h3>
+<ul>
+    <li>Database systems illustrate how both open-source and commercial software manage deadlock.</li>
+    <li>Updates to a database may be performed as transactions, and locks are typically used to ensure data integrity.</li>
+    <li>Deadlocks are possible in a database with multiple concurrent transactions.</li>
+    <li>Most transactional database systems include a deadlock detection and recovery mechanism.</li>
+    <li>The database server periodically searches for cycles in the wait-for graph to detect deadlock among a set of transactions.</li>
+    <li>When deadlock is detected, a victim is selected, the transaction is aborted and rolled back, releasing the locks held by the victim transaction.</li>
+    <li>The choice of a victim transaction depends on the database system. For example, MySQL selects transactions that minimize the number of rows being manipulated.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=439">Pages: 439</a>
+
+<h3>8.8.1 Process and Thread Termination</h3>
+<ul>
+    <li>To eliminate deadlocks by aborting a process or thread, there are two methods:</li>
+    <li>Abort all deadlocked processes. This breaks the deadlock cycle but may result in loss of computation.</li>
+    <li>Abort one process at a time until the deadlock cycle is eliminated. This method incurs overhead as after each process is aborted, a deadlock-detection algorithm must be invoked.</li>
+    <li>Aborting a process may not be easy. If a process was updating a file or shared data while holding a mutex lock, the system must restore the status of the lock.</li>
+    <li>If the partial termination method is used, the system must determine which deadlocked process should be terminated. This determination is a policy decision.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=440">Pages: 440</a>
+
+<h3>8.8.2 Resource Preemption</h3>
+<ul>
+    <li>To eliminate deadlocks using resource preemption, resources are successively preempted from processes and allocated to other processes until the deadlock cycle is broken.</li>
+    <li>If preemption is used to handle deadlocks, three main issues need to be addressed:</li>
+    <ul>
+        <li>Selecting a victim: Deciding which resources and processes should be preempted. The choice is based on factors like process priority, resources used, and the type of resources.</li>
+        <li>Rollback: After preempting a resource from a process, the process cannot continue its normal execution. The process must be rolled back to a safe state and restarted. The simplest solution is a total rollback, but more effective methods may roll back the process only as far as necessary to break the deadlock.</li>
+        <li>Starvation: Ensuring that starvation doesn't occur. In systems where victim selection is based on cost factors, the same process might always be chosen as a victim, leading to starvation. The system must ensure that a process can only be chosen as a victim a finite number of times.</li>
+    </ul>
+    <li>The preempted resources are added to the list of resources the thread is waiting for. The thread is restarted only when it can regain its old resources and the new ones it's requesting.</li>
+    <li>This protocol is often applied to resources whose state can be easily saved and restored later, such as CPU registers and database transactions. However, it's not generally applied to resources like mutex locks and semaphores, where deadlock commonly occurs.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=440">Pages: 440</a>
