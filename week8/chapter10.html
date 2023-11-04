@@ -1,0 +1,125 @@
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<h1>Home</h1>
+<button onclick="window.location.href = '../index.html'">Back</button>
+
+
+<h3>Section 10.1 Background</h3>
+<ul>
+  <li>Virtual memory allows for a program to be larger than physical memory, abstracting main memory into a large, uniform array of storage.</li>
+  <li>It separates logical memory as viewed by the programmer from physical memory, which frees programmers from memory-storage limitations.</li>
+  <li>Virtual memory also facilitates processes to share files and libraries, and to implement shared memory, providing an efficient mechanism for process creation.</li>
+  <li>The virtual address space of a process is typically seen as beginning at a certain logical address and existing in contiguous memory, although physical memory is organized in page frames that may not be contiguous.</li>
+  <li>Virtual memory involves the separation of logical memory from physical memory, allowing an extremely large virtual memory to be provided for programmers when only a smaller physical memory is available.</li>
+  <li>It makes programming easier because the programmer does not need to worry about the amount of physical memory available.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=501" target="_blank">Read more on PDF Page 501</a>
+
+<h3>Section 10.2 Demand Paging</h3>
+<ul>
+  <li>Demand paging is a method where pages are loaded into memory only when they are required during program execution, which makes memory usage more efficient.</li>
+  <li>Pages that are never accessed are never loaded into physical memory, which can save resources and improve performance.</li>
+  <li>This system is akin to a paging system with swapping where processes reside in secondary memory when not in use.</li>
+  <li>Programs tend to exhibit locality of reference, meaning they access a relatively small portion of their address space at any given time, which makes demand paging feasible.</li>
+  <li>Hardware support for demand paging includes a page table with the ability to mark entries invalid through a valid-invalid bit or special value of protection bits.</li>
+  <li>When a page fault occurs, the system must bring the required page from secondary storage into an available page frame in memory, which can affect performance.</li>
+  <li>Strategies for managing free frames and handling page faults are crucial for the efficiency of demand paging.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=505" target="_blank">Read more on PDF Page 505</a>
+
+<h3>Section 10.2.1 Basic Concepts of Demand Paging</h3>
+<ul>
+  <li>Demand paging loads pages into memory only when they are needed during program execution, increasing memory efficiency.</li>
+  <li>Pages not accessed are never loaded into physical memory, saving resources.</li>
+  <li>Hardware support is necessary to distinguish between pages in memory and pages in secondary storage, typically using a valid-invalid bit scheme.</li>
+  <li>Programs exhibit locality of reference, accessing a small portion of their address space at any given time, making demand paging feasible.</li>
+  <li>Pure demand paging starts executing a process with no pages in memory, leading to page faults that bring the necessary pages into memory.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=505" target="_blank">Read more on PDF Page 505</a>
+
+<h3>Section 10.2.2 Free Frame List</h3>
+<ul>
+  <li>The operating system maintains a free-frame list, which is a pool of free frames to be used to satisfy page fault requests.</li>
+  <li>When a page fault occurs, the desired page is brought from secondary storage into a frame from this free-frame list.</li>
+  <li>Zero-fill-on-demand is a technique where free frames are zeroed out before being allocated, ensuring previous contents are erased for security reasons.</li>
+  <li>At system startup, all available memory is placed on the free-frame list, which diminishes as frames are allocated.</li>
+  <li>When the free-frame list falls below a certain threshold, it must be repopulated, which is covered in Section 10.4 on page replacement strategies.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=508" target="_blank">Read more on PDF Page 508</a>
+
+
+<h3>Section 10.2.3 Performance of Demand Paging</h3>
+<ul>
+  <li>Demand paging can significantly affect the performance of a computer system. Effective access time is a crucial performance metric.</li>
+  <li>Memory-access time (ma) is 10 nanoseconds when there are no page faults. With page faults, the system must read the page from secondary storage, adding to the access time.</li>
+  <li>The probability of a page fault (p) affects performance. If p is the probability of a page fault, the effective access time is calculated as: \( \text{Effective access time} = (1 - p) \times \text{ma} + p \times \text{page fault time} \).</li>
+  <li>Page fault time includes the service time for the page fault interrupt, read time from secondary storage, and the time to restart the process.</li>
+  <li>Minimizing page faults is essential for good performance, which can be influenced by the algorithm used for page replacement.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=509" target="_blank">Read more on PDF Page 509</a>
+
+<h3>Section 10.4 Page Replacement</h3>
+<ul>
+  <li>Page replacement is a technique used when no free frames are available in memory, requiring the system to select a page to be replaced.</li>
+  <li>When a page fault occurs, and there is no free frame, a page replacement algorithm selects a victim frame to free up.</li>
+  <li>The victim frame, if modified, is written to secondary storage, and the page tables are updated to reflect the change.</li>
+  <li>Page replacement completes the separation between logical memory and physical memory, allowing a large virtual memory on a smaller physical memory.</li>
+  <li>Effective demand paging requires both a frame-allocation algorithm and a page-replacement algorithm to optimize performance.</li>
+  <li>Page replacement algorithms are critical as I/O for secondary storage is expensive, and even slight improvements can yield significant performance gains.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=513" target="_blank">Read more on PDF Page 513</a>
+
+<h3>Section 10.4.1 Basic Page Replacement</h3>
+<ul>
+  <li>Basic page replacement involves finding a frame that is not currently being used and freeing it when no frame is free.</li>
+  <li>The contents of the frame to be freed are written to swap space, and the page table is updated to indicate the page is no longer in memory.</li>
+  <li>The page-fault service routine includes page replacement, where the desired page is read into the newly freed frame after a page fault.</li>
+  <li>If no frames are free, two page transfers are needed, one for the page-out and one for the page-in, doubling the page-fault service time.</li>
+  <li>Using a modify bit (or dirty bit) can reduce overhead by indicating if a page has been modified and needs to be written to storage upon replacement.</li>
+  <li>Page replacement is fundamental to demand paging, allowing for a large virtual memory on smaller physical memory.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=514" target="_blank">Read more on PDF Page 514</a>
+
+
+<h3>Section 10.4.2 FIFO Page Replacement</h3>
+<ul>
+  <li>The FIFO page-replacement algorithm is the simplest, replacing the oldest page in memory when a new page needs to be loaded.</li>
+  <li>It associates with each page the time when that page was brought into memory.</li>
+  <li>When a page must be replaced, the oldest page is chosen, regardless of how often it has been used recently.</li>
+  <li>FIFO can be problematic as it might replace pages that are heavily used if they were loaded first.</li>
+  <li>Belady’s anomaly can occur with FIFO, where increasing the number of page frames can actually lead to more page faults.</li>
+  <li>The algorithm is easy to implement but may not always yield optimal performance due to its simplistic approach.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=516" target="_blank">Read more on PDF Page 516</a>
+
+
+<h3>Section 10.4.3 Optimal Page Replacement</h3>
+<ul>
+  <li>The optimal page-replacement algorithm (OPT), also known as MIN, replaces the page that will not be used for the longest period of time.</li>
+  <li>Using OPT guarantees the lowest possible page-fault rate for a fixed number of frames.</li>
+  <li>OPT is difficult to implement in practice because it requires future knowledge of the reference string, which is not generally possible.</li>
+  <li>The algorithm is used mainly for comparison studies, to measure how well other algorithms perform against the optimal.</li>
+  <li>Belady’s anomaly does not occur with OPT, where other algorithms might show an increased number of page faults with more frames.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=518" target="_blank">Read more on PDF Page 518</a>
+
+<h3>Section 10.4.4 LRU Page Replacement</h3>
+<ul>
+  <li>Least Recently Used (LRU) page replacement algorithm replaces the page that has not been used for the longest period of time.</li>
+  <li>LRU is considered good because it approximates the optimal page replacement policy by using recent past behavior to predict future requests.</li>
+  <li>Implementing true LRU replacement can be challenging due to the need for hardware assistance to keep track of the order of page usage.</li>
+  <li>Two common implementations for LRU are through counters or stacks, both requiring hardware support for efficiency.</li>
+  <li>LRU does not suffer from Belady’s anomaly and is classified as a stack algorithm, which ensures that the set of pages in memory for n frames is always a subset of the set of pages that would be in memory with n+1 frames.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=520" target="_blank">Read more on PDF Page 520</a>
+
+
+<h3>Section 10.4.6 Counting-Based Page Replacement</h3>
+<ul>
+  <li>Counting-based page replacement algorithms use counters to track page references, aiming to identify the least and most frequently used pages.</li>
+  <li>The Least Frequently Used (LFU) algorithm replaces the page with the smallest count, assuming that a page used less often is less likely to be used in the future.</li>
+  <li>LFU can be problematic as pages used heavily at the start may remain in memory due to high counts despite not being needed later.</li>
+  <li>To mitigate this, counts may be shifted right at regular intervals, creating an exponentially decaying average that favors recent page usage.</li>
+  <li>The Most Frequently Used (MFU) algorithm is based on the idea that pages with small counts are likely new and have yet to be used, thus should not be replaced immediately.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=523" target="_blank">Read more on PDF Page 523</a>
