@@ -1,0 +1,16 @@
+8.5 Deadlock Prevention
+8.6 Deadlock Avoidance
+8.8 Recovery from Deadlock
+9.1 Background
+8.5.1 Mutual Exclusion
+8.5.2 Hold and Wait
+8.5.3 No Preemption
+8.5.4 Circular Wait
+8.6.1 Safe State
+8.6.2 Resource-Allocation-Graph Algorithm
+8.6.3 Banker’s Algorithm
+9.1.1 Basic Hardware
+9.1.2 Address Binding
+9.1.3 Logical Versus Physical Address Space
+9.1.4 Dynamic Loading
+9.1.5 Dynamic Linking and Shared Libraries

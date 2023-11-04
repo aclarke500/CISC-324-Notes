@@ -1,21 +1,26 @@
 # declare sections here, and the names will be extracted in the order they are declared
 # so you can paste the concepts into chatGPT
 
-sections = [ # copied and pasted from onQ
-    # "Section 7.1.1",
-    # "Section 7.1.2",
-    # "Section 7.1.3",
-    # "Section 7.1.3.1",
-    # "Section 7.1.3.2",
+# Sections 10.1, 10.2 (10.2.1, 10.2.3,)
+# Sections 10.4 (10.4.1--10.4.4, 10.4.6,)
+sections = [
+ "Section 10",
+  "Section 10.1",
+  "Section 10.2",
+  "Section 10.2.1",
+  "Section 10.2.2",
+  "Section 10.2.3",
+  "Section 10.4",
+  "Section 10.4.1",
+  "Section 10.4.2",
+  "Section 10.4.3",
+  "Section 10.4.4",
+  "Section 10.4.6",
     "Section 8.1",
     "Section 8.3.1",
     "Section 8.3.2",
     "Section 8.4",
 ]
-
-# Chapter 7: Section 7.1.1, Section 7.1.2, Section 7.1.3- 7.1.3.1--7.1.3.2
-
-# Chapter 8: Section 8.1, Section 8.3- 8.3.1--8.3.2, Section 8.4
 
 
  # remove section
@@ -41,21 +46,66 @@ def get_page_estimates(line_number):
   page_est = round(line_percent*total_pages)
   return [page_est-10, page_est+10]
 
-with open("text.txt", 'r') as file:
-    line_number = 1
-    while True:
-        line = file.readline()
-        if not line:
-            break
-        # probably section header
-        if line[0].isnumeric() and (line[1] == '.'):
-          for s in sections_formatted:
-            if s in line:
-              section_topics.append([s, line.strip(), get_page_estimates(line_number)])
-              sections_formatted.remove(s)
-              break
+def begins_with_correct_heading(line, section):
+  if len(section) > len(line):
+    return False
+  
+  for i in range(len(section)):
+    if not section[i] == line[i]:
+      return False
+    
+  return True
 
-        line_number += 1
+def remove_page_number(line):
+  # returns substring with all characters before page number
+  return_string = ''
+  section_number_ended = False
+  page_number_started = False
+  for char in line:
+    if not (section_number_ended and (char.isdigit() or char == '.')):
+      section_number_ended = True
+    if section_number_ended and char.isdigit():
+      page_number_started = True
+
+    if not page_number_started:
+      return_string+=char
+
+
+
+try:
+  with open("text.txt", 'r') as file:
+      line_number = 1
+      while True:
+          line = file.readline()
+          if not line:
+              break
+          # probably section header
+          if line[0].isnumeric() and (line[1] == '.'):
+            for s in sections_formatted:
+              if begins_with_correct_heading(line, s):
+                section_topics.append([s, line.strip(), get_page_estimates(line_number)])
+                sections_formatted.remove(s)
+                break
+
+          line_number += 1
+except:
+
+  with open("scripts/text.txt", 'r') as file:
+      line_number = 1
+      while True:
+          line = file.readline()
+          if not line:
+              break
+          # probably section header
+          if line[0].isnumeric() and (line[1] == '.'):
+            for s in sections_formatted:
+              if begins_with_correct_heading(line, s):
+                section_topics.append([s, line.strip(), get_page_estimates(line_number)])
+                sections_formatted.remove(s)
+                break
+
+          line_number += 1
+
 
 
 # print(section_topics)
