@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="style.css">
+
+<div class="container">
 <h1>Home</h1>
 <button onclick="window.location.href = '../index.html'">Back</button>
 <h3>9.1.1 Basic Hardware</h3>
@@ -26,7 +29,7 @@
 
 <h3>9.1.2 Address Binding</h3>
 <ul>
-  <li>Programs reside on disk as binary executable files and must be loaded into memory to run.</li>
+  <li>A program lives on a disk as en executable, and as it goes from existing on disk to being run, the process changes. </li>
   <li>They are placed within a process context, becoming eligible for CPU execution.</li>
   <li>During execution, the process accesses its instructions and data from memory.</li>
   <li>Upon termination, the process's memory is freed for other processes.</li>
@@ -35,16 +38,26 @@
   <li>User programs undergo several steps before execution, with addresses represented differently at each step:</li>
   <li>Symbols in source code are bound to relocatable addresses by a compiler.</li>
   <li>Relocatable addresses are then bound to absolute addresses by a linker or loader.</li>
-  <li>Binding of instructions and data to memory addresses can occur at different times:</li>
-  <li>Compile time: If the memory location is known, absolute code is generated.</li>
+</ul>
+<p>The binding of instructions can be done at different times. </p>
+<h4>Compile Time</h4>
+<ul>
+  <li>If the memory location is known, absolute code is generated.</li>
   <li>If the location changes later, the code must be recompiled.</li>
-  <li>Load time: If the memory location is not known at compile time, relocatable code is generated.</li>
+</ul>
+<h4>Load Time</h4>
+<ul>
+  <li>If the memory location is not known at compile time, relocatable code is generated.</li>
   <li>Final binding is delayed until the code is loaded into memory.</li>
-  <li>Execution time: If the process can move during execution, binding is delayed until runtime.</li>
+</ul>
+<h4>Execution Time</h4>
+<ul>
+  <li>If the process can move during execution, binding is delayed until runtime.</li>
   <li>Special hardware is required for runtime binding.</li>
   <li>Most operating systems bind addresses at execution time.</li>
-  <li>The chapter discusses various binding implementations.</li>
 </ul>
+
+
 <img src="../assets/chapter9-9.1.2.png">
 <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=458">Pages</a>
 
@@ -100,6 +113,10 @@
 <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=461">Pages</a>
 
 <h3>9.1.5 Dynamic Linking and Shared Libraries</h3>
+<p>DLLs allow code libraries to be minimized. For insance, if you were running a C program and needed to include the standard C library,</p>
+<p>that would be a huge pain in the ass if it was needed for every instance. Instead, you can have the library exist in a dynamically linked</p>
+<p>way in one location, and have parts of it loaded as necessary that all link to eachother.</p>
+<p>That way, it can exist in one spot for everyone to use.</p>
 <ul>
   <li>Dynamically linked libraries (DLLs) are linked at runtime, contrasting with static linking where system libraries are pre-bound at compile time.</li>
   <li>Dynamic linking defers the linking of libraries to execution time, saving memory by sharing libraries like the C standard library across programs.</li>
@@ -109,16 +126,13 @@
   <li>Dynamic linking and shared libraries typically require operating system mechanisms for checking routines in memory spaces and managing shared access.</li>
 </ul>
 
+<h3>Advantages</h3>
+<ul>
+  <li>The memory/space utilization is more efficient as you only load what you need when you need it</li>
+  <li>Ideal for working with large code bases where some functions seldomly are called</li>
+  <li>Easier to update versions of libraries with little hassle</li>
+</ul>
+
 <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=462">Pages</a>
 
-
-<style>
-  a{
-    display: block;
-  }
-  img{
-    max-height: 400px;
-    max-width: 500px;
-    display: block;
-  }
-</style>
+</div>

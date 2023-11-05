@@ -1,178 +1,326 @@
-<h1>Home</h1>
-<button onclick="window.location.href = '../index.html'">Back</button>
+<head>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<div class="container">
+  <h1>Home</h1>
+  <button onclick="window.location.href = '../index.html'">Back</button>
 
 
-<h2>9.2 Contiguous Memory Allocation</h2>
-<p>Contiguous Memory Allocation is a scheme that requires each process to be contained in a single contiguous section of memory, adjacent to the next process. This method is one of the earliest used for allocating memory efficiently and is discussed in detail in the textbook.</p>
+  <h2>9.2 Contiguous Memory Allocation</h2>
+  <p>Contiguous Memory Allocation is a scheme that requires each process to be contained in a single contiguous section
+    of memory, adjacent to the next process. This method is one of the earliest used for allocating memory efficiently
+    and is discussed in detail in the textbook.</p>
+  <ul>
+    <li><strong>Memory Protection:</strong> To prevent a process from accessing memory that it does not own, a
+      combination of a relocation register and a limit register is used. The relocation register contains the value of
+      the smallest physical address, while the limit register contains the range of logical addresses.</li>
+    <li><strong>Memory Allocation:</strong> The main challenge with contiguous memory allocation is finding space for a
+      new file, which is heavily influenced by the system chosen to manage free space.</li>
+    <li><strong>Fragmentation:</strong> Contiguous allocation can lead to fragmentation issues, where free memory is
+      split into small blocks over time, making it difficult to find contiguous space for new processes or files.</li>
+  </ul>
+  <p>For more detailed information, refer to the textbook pages:</p>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=463"
+    target="_blank">Section 9.2 on PDF Page 463</a>
+
+  <h3>9.2.1 Memory Protection</h3>
+  <div class="memory-protection">
+    <p>Memory protection in contiguous memory allocation is crucial to prevent a process from accessing memory that it
+      does not own. This is achieved by using a combination of a relocation register and a limit register. The
+      relocation register holds the value of the smallest legal physical memory address, while the limit register
+      specifies the size of the range. This setup ensures that each process can only access its own allocated memory
+      space, thus providing protection against unauthorized access.</p>
+    <p>Protection bits associated with each frame in a paged environment further enhance memory protection. These bits,
+      stored in the page table, define the access level of a page, such as read-only or read-write. The CPU hardware is
+      involved in checking these protection bits to ensure that no writes are made to a read-only page, for example.</p>
+    <p>Protection mechanisms are essential not only for multiprogrammed systems but also for all computing systems,
+      including those connected to networks and the Internet. The goal is to safeguard the system's resources from
+      unauthorized access, malicious destruction or alteration, and accidental introduction of inconsistency.</p>
+    <p>For more detailed information, refer to the textbook pages:</p>
+  </div>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=457"
+    target="_blank">Section 9.2.1 on PDF Page 457</a>
+
+  <h3>9.2.2 Memory Allocation</h3>
+  <ul>
+    <li>Contiguous memory allocation involves finding a single contiguous block of memory to accommodate a process.</li>
+    <li>The operating system must manage free space efficiently to minimize wasted memory and optimize performance.</li>
+    <li>Memory is divided into two partitions: one for the operating system (usually placed in high memory) and one for
+      user processes.</li>
+    <li>Allocation strategies include first fit, best fit, and worst fit, which determine how a partition is selected
+      for a process.</li>
+    <li>Dynamic storage-allocation problem involves choosing which free block to allocate to a process from a set of
+      available blocks.</li>
+    <li>First fit and best fit are generally better in terms of speed and storage utilization compared to worst fit.
+    </li>
+    <li>Memory allocation for the kernel is managed separately and may involve different strategies such as the buddy
+      system and slab allocation.</li>
+  </ul>
+
+  <img src="../assets/9.3.png">
+  <p>Here we can see the OS allocating memory over time. When process 8 is complete, there is a whole in the memory address, so process 9 is fit there.</p>
+  <p>For more detailed information, refer to the textbook pages:</p>
+
+  <h4>First Fit</h4>
+  <p>Use the first whole that is big enough.</p>
+  <h4>Best Fit</h4>
+  <p>Traverse entire list (unless list is ordered by size) of holes until we find the one that will leave the smallest hole after we fill it.</p>
+  <h4>Worst Fit</h4>
+  <p>Traverse entire list (again unless ordered by size) and <b>maximize</b> the size of the whole that is leftover. This does have practical benefits.</p>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=462"
+    target="_blank">Section 9.2.2 on PDF Page 462</a>
+
+  <h3>9.2.3 Fragmentation</h3>
+  <ul>
+    <li>Fragmentation occurs when there is enough total memory space to satisfy a request but the available spaces are
+      not contiguous, leading to a large number of small holes.</li>
+    <li>External fragmentation can be a significant problem, potentially leaving up to one-third of memory unusable,
+      known as the 50-percent rule.</li>
+    <li>Internal fragmentation happens when the memory allocated to a process is slightly larger than requested, leaving
+      unused memory internal to a partition.</li>
+    <li>Compaction is one solution to external fragmentation, where memory contents are shuffled to place all free
+      memory together in one large block.</li>
+    <li>Compaction is only possible if relocation is dynamic and done at execution time, allowing for the movement of
+      programs and data and the adjustment of the base register.</li>
+    <li>The simplest compaction algorithm moves all processes towards one end of memory, consolidating holes and
+      creating one large hole of available memory.</li>
+    <li>Paging can be a solution to external fragmentation by allowing a process's logical address space to be
+      noncontiguous, allocating physical memory wherever available.</li>
+  </ul>
+  <p>For more detailed information, refer to the textbook pages:</p>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=465"
+    target="_blank">Section 9.2.3 on PDF Page 465</a>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=466"
+    target="_blank">Section 9.2.3 on PDF Page 466</a>
+
+  <h2>9.3 Paging</h2>
+  <ul>
+    <li>Paging allows a process's physical address space to be noncontiguous, avoiding external fragmentation and the
+      need for compaction.</li>
+    <li>It is implemented through cooperation between the operating system and the computer hardware.</li>
+    <li>Physical memory is broken into fixed-sized blocks called frames, and logical memory into blocks of the same size
+      called pages.</li>
+    <li>Pages are loaded into any available memory frames from their source, such as a file system or a backing store.
+    </li>
+    <li>The operating system maintains a page table for each process, which is used to translate logical addresses to
+      physical addresses.</li>
+    <li>A frame table is kept system-wide to track the allocation and availability of physical memory frames.</li>
+    <li>Paging is used in most operating systems, from large servers to mobile devices, although mobile systems
+      typically do not support swapping due to hardware constraints.</li>
+  </ul>
+  <p>For more detailed information, refer to the textbook pages:</p>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=466"
+    target="_blank">Section 9.3 on PDF Page 466</a>
+
+  <h3>9.3.1 Basic Method</h3>
+  <ul>
+    <li>Paging allows the physical address space of a process to be noncontiguous, which avoids external fragmentation
+      and the need for compaction.</li>
+    <li>Physical memory is divided into fixed-sized blocks known as frames, and logical memory is divided into blocks of
+      the same size called pages.</li>
+    <li>When a process is executed, its pages are loaded into any available memory frames from their source, such as a
+      file system or a backing store.</li>
+    <li>This method is implemented through cooperation between the operating system and the computer hardware.</li>
+    <li>Paging is used in various forms in most operating systems, including those for large servers and mobile devices.
+    </li>
+  </ul>
+  <p>For more detailed information, refer to the textbook pages:</p>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=466"
+    target="_blank">Section 9.3.1 on PDF Page 466</a>
+  <img src="../assets/chapter9.3.1.png">
+  <img src="../assets/9.4.png">
+  <p>This is being made more complicated than it needs to be. Basically whatever frame a page belongs to, indicates it's <b>physical</b> address. 
+  For instance, if pages are of size 8, and you have a item with <b>logical</b> address 5, and is frame 3 (0 based), the physical address would be <code>address = 4 x 8 + 3</code></p>
+
+
+  <h3>9.3.2 Hardware Support for Paging</h3>
+  <ul>
+    <li>Hardware support for paging involves a page table that is kept in registers or main memory.</li>
+    <li>The page table maps logical addresses to physical addresses.</li>
+    <li>Each logical address consists of a page number and an offset within the page.</li>
+    <li>The page number is used as an index into the page table to find the frame number.</li>
+    <li>The frame number and the offset are combined to define the physical address.</li>
+    <li>Translation Look-aside Buffers (TLBs) are used to improve the speed of address translation by keeping a cache of
+      recent translations.</li>
+    <li>Hardware must support the ability to mark a page table entry as invalid if the page is not in memory.</li>
+    <li>Protection is implemented using protection bits for each frame, which can define a page as read-only or
+      read-write.</li>
+    <li>Shared pages between processes are possible, and the hardware must support this by mapping a page to multiple
+      page tables.</li>
+  </ul>
+
+<h4>Translation Look Aside buffers TLB</h4>
 <ul>
-  <li><strong>Memory Protection:</strong> To prevent a process from accessing memory that it does not own, a combination of a relocation register and a limit register is used. The relocation register contains the value of the smallest physical address, while the limit register contains the range of logical addresses.</li>
-  <li><strong>Memory Allocation:</strong> The main challenge with contiguous memory allocation is finding space for a new file, which is heavily influenced by the system chosen to manage free space.</li>
-  <li><strong>Fragmentation:</strong> Contiguous allocation can lead to fragmentation issues, where free memory is split into small blocks over time, making it difficult to find contiguous space for new processes or files.</li>
+  <li>TLBs are a part of the chip’s memory-management unit (MMU).</li>
+  <li>They are small, fast cache that hardware uses to improve virtual address translation speed.</li>
+  <li>TLBs store recent translations of virtual memory to physical memory addresses.</li>
+  <li>Each entry in a TLB contains information about the virtual address, physical address, and access permissions.</li>
+  <li>When a virtual address is referenced, the TLB is checked first to see if the address translation is already present (TLB hit).</li>
+  <li>If the translation is not in the TLB (TLB miss), a slower memory walk through the page table is performed.</li>
+  <li>After a page table lookup, the resulting physical address is cached in the TLB.</li>
+  <li>TLBs can be fully associative, set associative, or direct mapped.</li>
+  <li>Operating systems must ensure TLB entries are invalidated or updated upon context switches or changes to the page table.</li>
+  <li>TLB entries may also include information about cache policies, such as whether a page is cacheable and, if so, which kind of cache.</li>
+  <li>TLB shootdown is a process where entries in other processors' TLBs are invalidated during updates to the page table.</li>
 </ul>
-<p>For more detailed information, refer to the textbook pages:</p>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=463" target="_blank">Section 9.2 on PDF Page 463</a>
 
-<h3>9.2.1 Memory Protection</h3>
-<p>Memory protection in contiguous memory allocation is crucial to prevent a process from accessing memory that it does not own. This is achieved by using a combination of a relocation register and a limit register. The relocation register holds the value of the smallest legal physical memory address, while the limit register specifies the size of the range. This setup ensures that each process can only access its own allocated memory space, thus providing protection against unauthorized access.</p>
-<p>Protection bits associated with each frame in a paged environment further enhance memory protection. These bits, stored in the page table, define the access level of a page, such as read-only or read-write. The CPU hardware is involved in checking these protection bits to ensure that no writes are made to a read-only page, for example.</p>
-<p>Protection mechanisms are essential not only for multiprogrammed systems but also for all computing systems, including those connected to networks and the Internet. The goal is to safeguard the system's resources from unauthorized access, malicious destruction or alteration, and accidental introduction of inconsistency.</p>
-<p>For more detailed information, refer to the textbook pages:</p>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=457" target="_blank">Section 9.2.1 on PDF Page 457</a>
+<img src="../assets/9.5.png">
+  <p>For more detailed information, refer to the textbook pages:</p>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=471"
+    target="_blank">Section 9.3.2 on PDF Page 471</a>
 
-<h3>9.2.2 Memory Allocation</h3>
-<ul>
-  <li>Contiguous memory allocation involves finding a single contiguous block of memory to accommodate a process.</li>
-  <li>The operating system must manage free space efficiently to minimize wasted memory and optimize performance.</li>
-  <li>Memory is divided into two partitions: one for the operating system (usually placed in high memory) and one for user processes.</li>
-  <li>Allocation strategies include first fit, best fit, and worst fit, which determine how a partition is selected for a process.</li>
-  <li>Dynamic storage-allocation problem involves choosing which free block to allocate to a process from a set of available blocks.</li>
-  <li>First fit and best fit are generally better in terms of speed and storage utilization compared to worst fit.</li>
-  <li>Memory allocation for the kernel is managed separately and may involve different strategies such as the buddy system and slab allocation.</li>
-</ul>
-<p>For more detailed information, refer to the textbook pages:</p>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=462" target="_blank">Section 9.2.2 on PDF Page 462</a>
+  <h3>9.3.3 Protection</h3>
+  <ul>
+    <li>Protection in a paged environment is enforced by protection bits associated with each frame.</li>
+    <li>These bits are typically stored in the page table and define the access level of a page, such as read-only or
+      read-write.</li>
+    <li>Every memory reference goes through the page table to find the correct frame number, and simultaneously, the
+      protection bits are checked to ensure that no writes are made to a read-only page.</li>
+    <li>Failure to adhere to the protection settings results in a trap to the operating system, which then handles the
+      violation.</li>
+    <li>Protection mechanisms are crucial for maintaining the integrity of data and the stability of the system by
+      preventing unauthorized access or modification of memory areas.</li>
+  </ul>
+  <p>For more detailed information, refer to the textbook pages:</p>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=474"
+    target="_blank">Section 9.3.3 on PDF Page 474</a>
 
-<h3>9.2.3 Fragmentation</h3>
-<ul>
-  <li>Fragmentation occurs when there is enough total memory space to satisfy a request but the available spaces are not contiguous, leading to a large number of small holes.</li>
-  <li>External fragmentation can be a significant problem, potentially leaving up to one-third of memory unusable, known as the 50-percent rule.</li>
-  <li>Internal fragmentation happens when the memory allocated to a process is slightly larger than requested, leaving unused memory internal to a partition.</li>
-  <li>Compaction is one solution to external fragmentation, where memory contents are shuffled to place all free memory together in one large block.</li>
-  <li>Compaction is only possible if relocation is dynamic and done at execution time, allowing for the movement of programs and data and the adjustment of the base register.</li>
-  <li>The simplest compaction algorithm moves all processes towards one end of memory, consolidating holes and creating one large hole of available memory.</li>
-  <li>Paging can be a solution to external fragmentation by allowing a process's logical address space to be noncontiguous, allocating physical memory wherever available.</li>
-</ul>
-<p>For more detailed information, refer to the textbook pages:</p>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=465" target="_blank">Section 9.2.3 on PDF Page 465</a>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=466" target="_blank">Section 9.2.3 on PDF Page 466</a>
-
-<h2>9.3 Paging</h2>
-<ul>
-  <li>Paging allows a process's physical address space to be noncontiguous, avoiding external fragmentation and the need for compaction.</li>
-  <li>It is implemented through cooperation between the operating system and the computer hardware.</li>
-  <li>Physical memory is broken into fixed-sized blocks called frames, and logical memory into blocks of the same size called pages.</li>
-  <li>Pages are loaded into any available memory frames from their source, such as a file system or a backing store.</li>
-  <li>The operating system maintains a page table for each process, which is used to translate logical addresses to physical addresses.</li>
-  <li>A frame table is kept system-wide to track the allocation and availability of physical memory frames.</li>
-  <li>Paging is used in most operating systems, from large servers to mobile devices, although mobile systems typically do not support swapping due to hardware constraints.</li>
-</ul>
-<p>For more detailed information, refer to the textbook pages:</p>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=466" target="_blank">Section 9.3 on PDF Page 466</a>
-
-<h3>9.3.1 Basic Method</h3>
-<ul>
-  <li>Paging allows the physical address space of a process to be noncontiguous, which avoids external fragmentation and the need for compaction.</li>
-  <li>Physical memory is divided into fixed-sized blocks known as frames, and logical memory is divided into blocks of the same size called pages.</li>
-  <li>When a process is executed, its pages are loaded into any available memory frames from their source, such as a file system or a backing store.</li>
-  <li>This method is implemented through cooperation between the operating system and the computer hardware.</li>
-  <li>Paging is used in various forms in most operating systems, including those for large servers and mobile devices.</li>
-</ul>
-<p>For more detailed information, refer to the textbook pages:</p>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=466" target="_blank">Section 9.3.1 on PDF Page 466</a>
-<img src="../assets/chapter9.3.1.png">
-
-
-<h3>9.3.2 Hardware Support for Paging</h3>
-<ul>
-  <li>Hardware support for paging involves a page table that is kept in registers or main memory.</li>
-  <li>The page table maps logical addresses to physical addresses.</li>
-  <li>Each logical address consists of a page number and an offset within the page.</li>
-  <li>The page number is used as an index into the page table to find the frame number.</li>
-  <li>The frame number and the offset are combined to define the physical address.</li>
-  <li>Translation Look-aside Buffers (TLBs) are used to improve the speed of address translation by keeping a cache of recent translations.</li>
-  <li>Hardware must support the ability to mark a page table entry as invalid if the page is not in memory.</li>
-  <li>Protection is implemented using protection bits for each frame, which can define a page as read-only or read-write.</li>
-  <li>Shared pages between processes are possible, and the hardware must support this by mapping a page to multiple page tables.</li>
-</ul>
-<p>For more detailed information, refer to the textbook pages:</p>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=471" target="_blank">Section 9.3.2 on PDF Page 471</a>
-
-<h3>9.3.3 Protection</h3>
-<ul>
-  <li>Protection in a paged environment is enforced by protection bits associated with each frame.</li>
-  <li>These bits are typically stored in the page table and define the access level of a page, such as read-only or read-write.</li>
-  <li>Every memory reference goes through the page table to find the correct frame number, and simultaneously, the protection bits are checked to ensure that no writes are made to a read-only page.</li>
-  <li>Failure to adhere to the protection settings results in a trap to the operating system, which then handles the violation.</li>
-  <li>Protection mechanisms are crucial for maintaining the integrity of data and the stability of the system by preventing unauthorized access or modification of memory areas.</li>
-</ul>
-<p>For more detailed information, refer to the textbook pages:</p>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=474" target="_blank">Section 9.3.3 on PDF Page 474</a>
-
-<h3>9.3.4 Shared Pages</h3>
-<ul>
-  <li>Shared pages allow multiple processes to use the same physical memory for executing the same code, such as libraries or system code.</li>
-  <li>This sharing is particularly important in systems with many processes, as it saves memory by avoiding duplicate copies of the same code.</li>
-  <li>For example, the standard C library (libc) can be shared across different user processes on a Linux system, significantly reducing the required memory.</li>
-  <li>Reentrant code, which does not change during execution, is necessary for shared pages to work effectively.</li>
-  <li>Each process has its own set of registers and data storage, but the code in memory can be shared.</li>
-  <li>Shared pages are not limited to libraries but can also include compilers, window systems, and database systems.</li>
-  <li>The operating system enforces the read-only nature of shared code to maintain system stability and data integrity.</li>
-</ul>
-<p>For more detailed information, refer to the textbook pages:</p>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=475" target="_blank">Section 9.3.4 on PDF Page 475</a>
-<br>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=476" target="_blank">Section 9.3.4 on PDF Page 476</a>
+  <h3>9.3.4 Shared Pages</h3>
+  <ul>
+    <li>Shared pages allow multiple processes to use the same physical memory for executing the same code, such as
+      libraries or system code.</li>
+    <li>This sharing is particularly important in systems with many processes, as it saves memory by avoiding duplicate
+      copies of the same code.</li>
+    <li>For example, the standard C library (libc) can be shared across different user processes on a Linux system,
+      significantly reducing the required memory.</li>
+    <li>Reentrant code, which does not change during execution, is necessary for shared pages to work effectively.</li>
+    <li>Each process has its own set of registers and data storage, but the code in memory can be shared.</li>
+    <li>Shared pages are not limited to libraries but can also include compilers, window systems, and database systems.
+    </li>
+    <li>The operating system enforces the read-only nature of shared code to maintain system stability and data
+      integrity.</li>
+  </ul>
+  <p>For more detailed information, refer to the textbook pages:</p>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=475"
+    target="_blank">Section 9.3.4 on PDF Page 475</a>
+  <br>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=476"
+    target="_blank">Section 9.3.4 on PDF Page 476</a>
 
 
 
-<h3>9.4 Structure of the Page Table</h3>
-<ul>
-  <li>The page table structure is crucial for managing the mapping from virtual to physical memory addresses.</li>
-  <li>In systems with large logical address spaces, the page table itself can become very large, necessitating efficient structuring techniques.</li>
-  <li>Hierarchical paging is one method, which breaks the page table into smaller, more manageable pieces.</li>
-  <li>Hashed page tables are used for handling address spaces larger than 32 bits, using a hash table to store the mappings.</li>
-  <li>Inverted page tables are another approach, where each entry contains a pair of the process ID and the page number, reducing the size of the page table.</li>
-</ul>
-<p>For more detailed information, refer to the textbook pages:</p>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=477" target="_blank">Section 9.4 on PDF Page 477</a><br>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=478" target="_blank">Section 9.4 on PDF Page 478</a><br>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=479" target="_blank">Section 9.4 on PDF Page 479</a><br>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=480" target="_blank">Section 9.4 on PDF Page 480</a><br>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=481" target="_blank">Section 9.4 on PDF Page 481</a><br>
-<h3>9.4.1 Hierarchical Paging</h3>
-<ul>
-  <li>Hierarchical paging is used to manage large logical address spaces by breaking the page table into smaller pieces.</li>
-  <li>In a system with a 32-bit logical address space and a 4 KB page size, the page table may consist of over 1 million entries.</li>
-  <li>To manage this, the page number is divided into parts, each part referring to a different level of the page table.</li>
-  <li>This division can be done in several ways, such as using a two-level paging algorithm where the page table itself is also paged.</li>
-  <li>For example, a logical address can be divided into a 10-bit page number and a 10-bit page offset, with p1 as an index into the outer page table and p2 as the displacement within the page of the page table.</li>
-  <li>Such a structure reduces the memory overhead of the page table but increases the time needed to translate a logical address to a physical address because of multiple table lookups.</li>
-</ul>
-<p>For more detailed information, refer to the textbook pages:</p>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=491" target="_blank">Section 9.4.1 on PDF Page 491</a><br>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=477" target="_blank">Section 9.4.1 on PDF Page 477</a>
+  <h3>9.4 Structure of the Page Table</h3>
+  <ul>
+    <li>The page table structure is crucial for managing the mapping from virtual to physical memory addresses.</li>
+    <li>In systems with large logical address spaces, the page table itself can become very large, necessitating
+      efficient structuring techniques.</li>
+    <li>Hierarchical paging is one method, which breaks the page table into smaller, more manageable pieces.</li>
+    <li>Hashed page tables are used for handling address spaces larger than 32 bits, using a hash table to store the
+      mappings.</li>
+    <li>Inverted page tables are another approach, where each entry contains a pair of the process ID and the page
+      number, reducing the size of the page table.</li>
+  </ul>
+  <p>For more detailed information, refer to the textbook pages:</p>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=477"
+    target="_blank">Section 9.4 on PDF Page 477</a><br>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=478"
+    target="_blank">Section 9.4 on PDF Page 478</a><br>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=479"
+    target="_blank">Section 9.4 on PDF Page 479</a><br>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=480"
+    target="_blank">Section 9.4 on PDF Page 480</a><br>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=481"
+    target="_blank">Section 9.4 on PDF Page 481</a><br>
+  <h3>9.4.1 Hierarchical Paging</h3>
+  <ul>
+    <li>Hierarchical paging is used to manage large logical address spaces by breaking the page table into smaller
+      pieces.</li>
+    <li>In a system with a 32-bit logical address space and a 4 KB page size, the page table may consist of over 1
+      million entries.</li>
+    <li>To manage this, the page number is divided into parts, each part referring to a different level of the page
+      table.</li>
+    <li>This division can be done in several ways, such as using a two-level paging algorithm where the page table
+      itself is also paged.</li>
+    <li>For example, a logical address can be divided into a 10-bit page number and a 10-bit page offset, with p1 as an
+      index into the outer page table and p2 as the displacement within the page of the page table.</li>
+    <li>Such a structure reduces the memory overhead of the page table but increases the time needed to translate a
+      logical address to a physical address because of multiple table lookups.</li>
+  </ul>
+  <p>For more detailed information, refer to the textbook pages:</p>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=491"
+    target="_blank">Section 9.4.1 on PDF Page 491</a><br>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=477"
+    target="_blank">Section 9.4.1 on PDF Page 477</a>
 
 
-<h3>9.4.2 Hashed Page Tables</h3>
-<ul>
-  <li>Hashed page tables are used for managing address spaces larger than 32 bits.</li>
-  <li>The virtual page number is used as a hash value to look into a hash table that contains a linked list of elements hashing to the same location.</li>
-  <li>Each element in the list contains the virtual page number, the corresponding page frame, and a pointer to the next element.</li>
-  <li>Collisions are handled by searching through the linked list for a matching virtual page number.</li>
-  <li>A variation for 64-bit address spaces uses clustered page tables, where each entry in the hash table refers to several pages, making it suitable for sparse address spaces.</li>
-</ul>
-<p>For more detailed information, refer to the textbook pages:</p>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=478" target="_blank">Section 9.4.2 on PDF Page 478</a>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=479" target="_blank">Section 9.4.2 on PDF Page 479</a>
+  <h3>9.4.2 Hashed Page Tables</h3>
+  <ul>
+    <li>Hashed page tables are used for managing address spaces larger than 32 bits.</li>
+    <li>The virtual page number is used as a hash value to look into a hash table that contains a linked list of
+      elements hashing to the same location.</li>
+    <li>Each element in the list contains the virtual page number, the corresponding page frame, and a pointer to the
+      next element.</li>
+    <li>Collisions are handled by searching through the linked list for a matching virtual page number.</li>
+    <li>A variation for 64-bit address spaces uses clustered page tables, where each entry in the hash table refers to
+      several pages, making it suitable for sparse address spaces.</li>
+  </ul>
+  <p>For more detailed information, refer to the textbook pages:</p>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=478"
+    target="_blank">Section 9.4.2 on PDF Page 478</a>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=479"
+    target="_blank">Section 9.4.2 on PDF Page 479</a>
 
-<h3>9.4.3 Inverted Page Tables</h3>
-<ul>
-  <li>Inverted page tables are designed to reduce the amount of physical memory needed to track virtual-to-physical address translations.</li>
-  <li>They contain one entry per page of physical memory, indexed by a pair consisting of the process ID and the page number.</li>
-  <li>This structure is beneficial for systems with large amounts of physical memory and supports multiple logical address spaces.</li>
-  <li>Inverted page tables help decrease memory requirements but can increase the time needed to search the table during page references.</li>
-  <li>To improve search times, a hash table is often used to limit the search to a few page-table entries.</li>
-  <li>Shared memory with inverted page tables can be challenging because there is only one virtual page entry for every physical page.</li>
-  <li>Systems like the 64-bit UltraSPARC and PowerPC utilize inverted page tables.</li>
-  <li>IBM was the first major company to use inverted page tables, starting with the IBM System 38 and continuing through the RS/6000 and the current IBM Power CPUs.</li>
-</ul>
-<p>For more detailed information, refer to the textbook pages:</p>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=480" target="_blank">Section 9.4.3 on PDF Page 480</a><br>
-<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=481" target="_blank">Section 9.4.3 on PDF Page 481</a>
+  <h3>9.4.3 Inverted Page Tables</h3>
+  <ul>
+    <li>Inverted page tables are designed to reduce the amount of physical memory needed to track virtual-to-physical
+      address translations.</li>
+    <li>They contain one entry per page of physical memory, indexed by a pair consisting of the process ID and the page
+      number.</li>
+    <li>This structure is beneficial for systems with large amounts of physical memory and supports multiple logical
+      address spaces.</li>
+    <li>Inverted page tables help decrease memory requirements but can increase the time needed to search the table
+      during page references.</li>
+    <li>To improve search times, a hash table is often used to limit the search to a few page-table entries.</li>
+    <li>Shared memory with inverted page tables can be challenging because there is only one virtual page entry for
+      every physical page.</li>
+    <li>Systems like the 64-bit UltraSPARC and PowerPC utilize inverted page tables.</li>
+    <li>IBM was the first major company to use inverted page tables, starting with the IBM System 38 and continuing
+      through the RS/6000 and the current IBM Power CPUs.</li>
+  </ul>
+  <p>For more detailed information, refer to the textbook pages:</p>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=480"
+    target="_blank">Section 9.4.3 on PDF Page 480</a><br>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=481"
+    target="_blank">Section 9.4.3 on PDF Page 481</a>
 
+</div>
 
-<style src="../styles.css">
-  img{
-    height: 400px;
+<style>
+  a {
+    display: block;
+  }
+
+  img {
+    max-height: 800px;
+    max-width: 1000px;
+    display: block;
+  }
+
+  .container {
+    padding: 20px;
+    max-width: 100%;
+    font-size: 1.2em;
+
+  }
+
+  ul {
+    font-size: 1.2em;
+    max-width: 100%;
+
+  }
+  .memory-protection{
+    font-size: 1.2em;
+    max-width: 100%;
   }
 </style>
