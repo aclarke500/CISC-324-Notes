@@ -39,8 +39,8 @@
       unauthorized access, malicious destruction or alteration, and accidental introduction of inconsistency.</p>
     <p>For more detailed information, refer to the textbook pages:</p>
   </div>
-  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=457"
-    target="_blank">Section 9.2.1 on PDF Page 457</a>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=463"
+    target="_blank">Section 9.2.1 on PDF Page 463</a>
 
   <h3>9.2.2 Memory Allocation</h3>
   <ul>
@@ -95,6 +95,7 @@
     target="_blank">Section 9.2.3 on PDF Page 466</a>
 
   <h2>9.3 Paging</h2>
+  <p>Here is a really good video on paging: <a style="display: inline;" href="https://www.youtube.com/watch?v=LKYKp_ZzlvM">link</a>.</p>
   <ul>
     <li>Paging allows a process's physical address space to be noncontiguous, avoiding external fragmentation and the
       need for compaction.</li>
@@ -151,19 +152,8 @@
   </ul>
 
 <h4>Translation Look Aside buffers TLB</h4>
-<ul>
-  <li>TLBs are a part of the chip’s memory-management unit (MMU).</li>
-  <li>They are small, fast cache that hardware uses to improve virtual address translation speed.</li>
-  <li>TLBs store recent translations of virtual memory to physical memory addresses.</li>
-  <li>Each entry in a TLB contains information about the virtual address, physical address, and access permissions.</li>
-  <li>When a virtual address is referenced, the TLB is checked first to see if the address translation is already present (TLB hit).</li>
-  <li>If the translation is not in the TLB (TLB miss), a slower memory walk through the page table is performed.</li>
-  <li>After a page table lookup, the resulting physical address is cached in the TLB.</li>
-  <li>TLBs can be fully associative, set associative, or direct mapped.</li>
-  <li>Operating systems must ensure TLB entries are invalidated or updated upon context switches or changes to the page table.</li>
-  <li>TLB entries may also include information about cache policies, such as whether a page is cacheable and, if so, which kind of cache.</li>
-  <li>TLB shootdown is a process where entries in other processors' TLBs are invalidated during updates to the page table.</li>
-</ul>
+<p>These look fucking complicated. Basic idea is that it's a hardware cache, so some super fast memory, that stores recently looked up pages. So, if you look up a page and it's there, you instantly have the physical address. This is a TLB hit. If it's not there, you have to search the page table and read the address it points to in physical memory (from physical memory), then take that, compute the address (with the <code>physical address = frame + offset</code> equation), then you access your memory. If it's not in TLB miss -> two memory reads to get data, TLB hit -> one</p>
+
 
 <img src="../assets/9.5.png">
   <p>For more detailed information, refer to the textbook pages:</p>
@@ -182,6 +172,8 @@
     <li>Protection mechanisms are crucial for maintaining the integrity of data and the stability of the system by
       preventing unauthorized access or modification of memory areas.</li>
   </ul>
+  <p>The way valid bits work, is in the page table (or somewhere, don't quote me on this) there will be a set of bits. If the possibilites are read, write, execute in that order, full permissions would look like "111". "101" would imply read and execute. If someone tried to write, the "trap" would be raised. This works in conjunction with the indexing thing (only able to access certain memory locations based on process sizing) to ensure no one is accessing something they shouldn't.</p>
+
   <p>For more detailed information, refer to the textbook pages:</p>
   <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=474"
     target="_blank">Section 9.3.3 on PDF Page 474</a>
@@ -233,6 +225,7 @@
   <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=481"
     target="_blank">Section 9.4 on PDF Page 481</a><br>
   <h3>9.4.1 Hierarchical Paging</h3>
+  <p>So the page table solves the problem of emulating all our memory being contiguous. The only problem is the pages themselves need to be contiguous. As the pages get larger, this becomes a problem, so we rescurse and have a table (stored contiguously) that indexes other tables(that are individually contiguous, but not collectively) that point to our data.</p>
   <ul>
     <li>Hierarchical paging is used to manage large logical address spaces by breaking the page table into smaller
       pieces.</li>
@@ -247,6 +240,12 @@
     <li>Such a structure reduces the memory overhead of the page table but increases the time needed to translate a
       logical address to a physical address because of multiple table lookups.</li>
   </ul>
+<img src="../assets/9.6.png" alt="">
+<img src="../assets/9.7.png" alt="">
+
+<h4>Drawbacks</h4>
+<p>Each level of nesting for the page tables requires another memory access, meaning they are slower. They are typically not used for anything beyond 32 bits, where they are double nested.</p>
+
   <p>For more detailed information, refer to the textbook pages:</p>
   <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=491"
     target="_blank">Section 9.4.1 on PDF Page 491</a><br>
@@ -317,7 +316,10 @@
   ul {
     font-size: 1.2em;
     max-width: 100%;
-
+  }
+  p{
+    font-size: 1.2em;
+    max-width: 100%;
   }
   .memory-protection{
     font-size: 1.2em;
