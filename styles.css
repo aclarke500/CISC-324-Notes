@@ -1,20 +1,40 @@
-
-a{
+a {
   display: block;
 }
-img{
+
+img {
   max-height: 400px;
   max-width: 500px;
   display: block;
 }
-.container{
+
+.container {
   padding: 20px;
   max-width: 100%;
   font-size: 1.2em;
 
 }
-ul{
+
+ul {
   font-size: 0.9em;
   max-width: 100%;
-  display: none;
+}
+ol {
+  font-size: 0.9em;
+  max-width: 100%;
+}
+
+li{
+  margin: 10px;
+  font-size: 25px;
+}
+
+iframe {
+  margin: 10px;
+  border: 5px solid brown;
+  border-radius: 3%;
+}
+
+h3{
+  font-size: 50px;
 }

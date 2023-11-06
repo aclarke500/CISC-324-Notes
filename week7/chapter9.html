@@ -287,6 +287,10 @@
     <li>IBM was the first major company to use inverted page tables, starting with the IBM System 38 and continuing
       through the RS/6000 and the current IBM Power CPUs.</li>
   </ul>
+  <p>The way inverted page tables work is by keeping a constant page table across process. When you want to look something up, you pass in the process id (pid) and the page you want. Then you look it up in the table (as shown in the diagram). The index of that diagram corresponds to the frame you will be looking in. The offset is passed around untainted.</p>
+  <p>The main drawback is that it takes along time to search the table, so hasing os often used. This causes there to be one memory read for the hash table reference, and one for the page table itself.</p>
+  <img src="../assets/9.8.jpg">
+
   <p>For more detailed information, refer to the textbook pages:</p>
   <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=480"
     target="_blank">Section 9.4.3 on PDF Page 480</a><br>
