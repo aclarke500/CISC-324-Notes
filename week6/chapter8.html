@@ -1,3 +1,7 @@
+<title>Chapter 8, Week 6</title>
+<link rel="stylesheet" href="../styles.css">
+
+
 <h1>Home</h1>
 <button onclick="window.location.href = '../index.html'">Back</button>
 
@@ -18,9 +22,9 @@
     <li>Represents which threads require which resources.</li>
     <li>Introduces a "claim edge" in addition to request and assignment edges. A claim edge indicates a thread may request a resource in the future.</li>
     <li>When a thread requests a resource, the claim edge converts to a request edge.</li>
-    <il>A conversion from Ti to Rj can only be completed if it does not create a cycle.</il>
+  <li>A conversion from Ti to Rj can only be completed if it does not create a cycle.</li>
 </ul>
-<img src="../assets/8.9.png">
+<img src="../assets/8.9.png" class="make-img-big">
 <p>Safe state, a request from R2 -> T2 would fail. </p>
 <img src="../assets/8.10.png">
 
@@ -35,13 +39,16 @@
 
 <h4>Data Structures: </h4>
 <ul>
-  <li><b>Available:</b>Mutating vector where each element represents how much of each resource may be given out at an instant.</li>
+  <li><b>Available:</b> Mutating vector where each element represents how much of each resource may be given out at an instant.</li>
   <li><b>Max:</b> n by m matrix, where each cell represents the maximum number of resources a thread may call. So Max[i][j] = k means thread i can call <b>at most</b> k instances of resource j.</li>
   <li><b>Allocation:</b>n by m matrix with the same principle as max, except each cell represents how much is <b>currently</b> being used.</li>
   <li><b>Need:</b> n by m matrix representing in each cell how much is <b>needed</b>.</li>
 </ul>
 <p>Note graph is <b>not</b> 0 based.</p>
-<img style="height: 400px;"src="../assets/8.6.png">
+<div class="centre-text">
+  <img class="big-diagram" src="../assets/8.6.png">
+</div>
+
 
 <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=432">Pages: 432</a>
 
@@ -55,20 +62,21 @@
 <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=433">Pages: 433</a>
 
 <h3>8.6.3.2 Resource-Request Algorithm</h3>
-<p>Request[i] is the Request vector for thread T[i]</p>
+<p>Request[i] is the Request vector for thread T[i]. It represents the requests to all resources for that thread.</p>
 <ul>
     <li>Determines if resource requests can be safely granted.</li>
     <li>Checks if the request vector for a thread can be satisfied.</li>
     <li>The system decides whether to grant the request based on the current state and the safety algorithm.</li>
 </ul>
 <ol>
-  <li>If Request[i] (column) <= need, proceed. Else raise error as this means a resource has requested more than it should be able to.</li>
+  <li>If Request[i] (this is a column) <= need, proceed. Else raise error as this means a resource has requested more than it should be able to.</li>
   <li> If Request[i] <= Available, proceed. Else wait, since resources are not yet available.</li>
   <li>Have the system set up a mock state and use the safety algorithm to verify it. If the transaction is completed, resources are allocated. </li>
 </ol>
-<b>Available = Available - Request[i]</b><br>
-<b>Allocation = Allocation[i] + Request[i]</b><br>
-<b>Need[i] = Need[i] - Request[i]</b><br>
+<br>
+<p><b>Available = Available - Request[i]</b> // Availble is vector of available resources, subtract how many we are using respective of index</p>
+<p><b>Allocation[i] = Allocation[i] + Request[i]</b> // Updates the allocation for that thread with the requests</p>
+<p><b>Need[i] = Need[i] - Request[i]</b> // The amount the threads need is changed because we have accomadated them</p>
 
 <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=433">Pages: 433</a>
 
@@ -108,12 +116,3 @@
 </ul>
 <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=440">Pages: 440</a>
 
-
-<style>
-  .small{
-    height: 150px;
-  }
-  img{
-    height: 400px;
-  } 
-</style>
