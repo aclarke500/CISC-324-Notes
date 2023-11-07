@@ -1,5 +1,5 @@
 <head>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../styles.css">
 </head>
 
 <div class="container">
@@ -95,7 +95,8 @@
     target="_blank">Section 9.2.3 on PDF Page 466</a>
 
   <h2>9.3 Paging</h2>
-  <p>Here is a really good video on paging: <a style="display: inline;" href="https://www.youtube.com/watch?v=LKYKp_ZzlvM">link</a>.</p>
+  <p>This is a really good video on paging.</p>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/LKYKp_ZzlvM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
   <ul>
     <li>Paging allows a process's physical address space to be noncontiguous, avoiding external fragmentation and the
       need for compaction.</li>
@@ -152,9 +153,10 @@
   </ul>
 
 <h4>Translation Look Aside buffers TLB</h4>
-<p>These look fucking complicated. Basic idea is that it's a hardware cache, so some super fast memory, that stores recently looked up pages. So, if you look up a page and it's there, you instantly have the physical address. This is a TLB hit. If it's not there, you have to search the page table and read the address it points to in physical memory (from physical memory), then take that, compute the address (with the <code>physical address = frame + offset</code> equation), then you access your memory. If it's not in TLB miss -> two memory reads to get data, TLB hit -> one</p>
+<p>Here's a video for TLB.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/zeHrA0AbgxU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-
+<p>These look fucking complicated, but aren't that bad. Basic idea is that it's a hardware cache, so some super fast memory, that stores recently looked up pages. So, if you look up a page and it's there, you instantly have the physical address. This is a TLB hit. If it's not there, you have to search the page table and read the address it points to in physical memory (from physical memory), then take that, compute the address (with the <code>physical address = frame + offset</code> equation), then you access your memory. If it's not in TLB miss -> two memory reads to get data, TLB hit -> one</p>
 <img src="../assets/9.5.png">
   <p>For more detailed information, refer to the textbook pages:</p>
   <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=471"
