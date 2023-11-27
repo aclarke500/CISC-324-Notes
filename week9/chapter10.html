@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../styles.css">
   <title>Week 9 Chapter 10</title>
+  ->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
 </head>
 <button onclick="window.location.href = '../index.html'">Back</button><br>
 <body>
@@ -97,6 +99,49 @@
 
 <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=531">Read more on PDF page 531</a>
 
+
+<h3>10.6.1 Cause of Thrashing</h3>
+<p>Thrashing is a critical issue in paging systems, where processes spend more time paging than executing. This section discusses the underlying causes of thrashing.</p>
+
+<ul>
+  <li><strong>Insufficient Memory:</strong> Thrashing occurs when there is insufficient physical memory to meet the virtual memory demands of processes. Processes do not have enough frames to support their working set, leading to constant page faults and high paging activity.</li>
+  <li><strong>Increased Degree of Multiprogramming:</strong> Operating systems increase the degree of multiprogramming to optimize CPU utilization. However, when this increase leads to a memory demand that exceeds available memory, it results in thrashing. This is due to processes not having enough frames, causing frequent page replacements and high page-fault rates.</li>
+  <li><strong>Global Page-Replacement Algorithm:</strong> The use of global page-replacement algorithms exacerbates the problem. These algorithms replace pages without regard to the process they belong to, leading to situations where a single thrashing process can negatively impact the performance of other processes.</li>
+  <li><strong>Performance Impact:</strong> As thrashing sets in, the CPU utilization drops sharply because processes spend most of their time paging. This causes a significant decrease in system throughput and overall performance.</li>
+</ul>
+
+<p>Understanding the causes of thrashing is essential for effective memory management in operating systems. It involves balancing the degree of multiprogramming with the available memory resources to prevent excessive paging activity.</p>
+
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=531">Read more on PDF page 531</a>
+
+<h3>10.6.2 Working-Set Model</h3>
+<p>The working-set model is a fundamental concept in virtual memory systems for managing the active memory of processes. It is based on the principle of locality and aims to maintain an optimal number of pages in memory for each process.</p>
+
+<ul>
+  <li><strong>Locality:</strong> Locality in operating systems refers to the tendency of a process to make a series of memory references within a particular range or set of addresses over a certain period of execution. This concept is fundamental to the efficiency of memory management techniques like caching and the working-set model.</li>
+  <li><strong>Concept of Working Set:</strong> The working set of a process is defined as the set of pages in the most recent \( \Delta \) page references, where \( \Delta \) is a parameter defining the working-set window. This model assumes that pages in active use are part of the working set, and those not in use drop out of the working set after \( \Delta \) time units from their last reference.</li>
+  <li><strong>Importance of \( \Delta \):</strong> The accuracy of the working set depends on the value of \( \Delta \). If \( \Delta \) is too small, it may not encompass the entire locality of the process. Conversely, if \( \Delta \) is too large, it may include pages from multiple localities. An optimal \( \Delta \) is crucial for effective memory management.</li>
+  <li><strong>Process Execution and Localities:</strong> As a process executes, it moves from one locality to another. The working-set model aims to allocate enough frames to accommodate the size of the current locality, preventing the process from thrashing.</li>
+  <li><strong>Working-Set Strategy:</strong> The operating system monitors the working set of each process and allocates enough frames to satisfy its working-set size. This strategy helps prevent thrashing while keeping the degree of multiprogramming high, thus optimizing CPU utilization.</li>
+  <li><strong>Challenges:</strong> One of the main challenges in implementing the working-set model is tracking the working set effectively. The operating system must manage the working-set window and allocate frames accordingly.</li>
+</ul>
+
+<p>Understanding the working-set model is key to efficient memory management in operating systems, particularly in systems with high levels of multiprogramming.</p>
+
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=534">Read more on PDF page 534</a>
+<h3>10.6.3 Page-Fault Frequency</h3>
+<p>The page-fault frequency strategy is used in operating systems to control memory allocation and prevent thrashing. It is based on monitoring and adjusting the rate at which page faults occur.</p>
+
+<ul>
+  <li><strong>Control of Page-Fault Rate:</strong> The main idea behind the page-fault frequency strategy is to keep the page-fault rate within certain upper and lower bounds. If the page-fault rate of a process exceeds the upper limit, it indicates that the process requires more frames. Conversely, if the rate falls below the lower limit, the process may have more frames than necessary.</li>
+  <li><strong>Thrashing and Page-Fault Rate:</strong> Thrashing is characterized by a high page-fault rate. By controlling the page-fault rate, the PFF strategy aims to prevent processes from thrashing. When thrashing is detected (via a high page-fault rate), the system can respond by allocating more frames to the process.</li>
+  <li><strong>Allocation Adjustments:</strong> In response to changes in the page-fault rate, the operating system can adjust the number of frames allocated to a process. If the rate is too high, additional frames are allocated. If it is too low, frames may be removed from the process.</li>
+  <li><strong>Process Swapping:</strong> In situations where the page-fault rate increases and no free frames are available, the operating system may need to swap out a process to free up frames. These frames are then redistributed to processes experiencing high page-fault rates.</li>
+</ul>
+
+<p>Page-fault frequency is an important tool in memory management, as it provides a direct measure of a process's memory needs and helps maintain system stability by preventing thrashing.</p>
+
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=536">Read more on PDF page 536</a>
 
 
 </body>
