@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles.css">
+  <title>Week 9 Chapter 10</title>
+</head>
+<button onclick="window.location.href = '../index.html'">Back</button><br>
+<body>
+  <h2> Backround</h2>
+  <h3>Page vs Frame</h3>
+  <img src="../assets/10-0.png">
+  <p><strong>Page:</strong> Contiguous section of memory stored to represent data location.</p>
+  <p><strong>Frame:</strong> Non contiguous memory allocation that represents ACTUAL data</p>
+  <h3>Multiprogramming</h3>
+  <p>Multiprogramming refers to the ability of an operating system to support the execution of multiple programs concurrently on a single processor. It's a technique used to maximize the utilization of processor time.</p>
+  <h3>10.5 Allocation of Frames</h3>
+<p>In operating systems, frame allocation is a critical component of memory management, particularly in systems that use paging. This section discusses methods and strategies for allocating frames among processes, addressing the challenges and approaches for effective memory management.</p>
+
+<ul>
+  <li><strong>Overview:</strong> Frame allocation involves distributing the fixed amount of physical memory (frames) among various processes, optimizing performance, minimizing page faults, and ensuring fairness.</li>
+  <li><strong>Challenges in Allocation:</strong>
+    <ul>
+      <li><em>Equal Allocation:</em> Dividing available frames equally among processes, not considering the varying memory needs of different processes.</li>
+      <li><em>Proportional Allocation:</em> Allocating frames based on the size of each process's virtual memory, aiming for a fairer distribution.</li>
+    </ul>
+  </li>
+  <li><strong>Allocation Variability:</strong> Allocation changes with the level of multiprogramming, affecting how frames are distributed when processes are added or removed.</li>
+  <li><strong>Global vs. Local Allocation:</strong>
+    <ul>
+      <li><em>Global Replacement:</em> Allows processes to select replacement frames from all frames, leading to unpredictable performance due to dependence on overall paging behavior.</li>
+      <li><em>Local Replacement:</em> Restricts processes to choose replacement frames only from their own allocated frames, enhancing predictability in performance.</li>
+    </ul>
+  </li>
+  <li><strong>Page Replacement Algorithms:</strong> These are integral to frame allocation, influencing how frames are allocated and the interaction between processes and memory.</li>
+  <li><strong>Minimum Number of Frames:</strong> Defined by system architecture, ensuring enough frames are available for instruction execution, particularly for those requiring multiple memory references.</li>
+</ul>
+
+<p>This section highlights the importance of balancing performance, fairness, and resource utilization in frame allocation within an operating system. The chosen strategy depends on the specific needs and constraints of the system.</p>
+
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf?pdfPage=525">Source</a>
+
+
+
+<h3>10.5.1 Minimum Number of Frames</h3>
+<p>The allocation of a minimum number of frames in a paging system is influenced by several key factors, primarily related to performance optimization and instruction set requirements of the computer architecture.</p>
+
+<ul>
+  <li><strong>Performance Considerations:</strong> As the number of frames allocated to a process decreases, the page-fault rate tends to increase. This increase in page faults can significantly slow down process execution. Therefore, a minimum number of frames must be allocated to maintain acceptable performance levels.</li>
+  <li><strong>Instruction Set Requirements:</strong> The computer architecture often dictates the minimum number of frames that must be allocated. This is because certain instructions might require multiple frames. For instance, instructions with indirect addressing modes may necessitate additional frames for effective execution.</li>
+  <li><strong>Architectural Constraints:</strong> The architecture of the computer system can determine both the minimum and maximum number of frames required for a process. For example, some architectures require multiple frames for executing a single instruction due to complex addressing modes.</li>
+  <li><strong>Consideration of Paging Requirements:</strong> In systems with paging, there must be sufficient frames to hold all the different pages that any single instruction can reference. This requirement is crucial to ensure that all necessary data is available in memory for instruction execution without excessive paging.</li>
+</ul>
+
+<p>This section underscores the importance of balancing the minimum frame allocation against the need for efficient execution and adherence to architectural constraints. The optimal number of frames allocated to a process is a critical decision in the design of a paging system.</p>
+
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=525">Source</a>
+
+<h3>10.5.2 Allocation Algorithms</h3>
+<p>This section delves into the strategies employed for allocating frames among various processes in a paging system, focusing on how different allocation methods can impact system performance and efficiency.</p>
+
+<ul>
+  <li><strong>Equal Allocation:</strong> A straightforward method where the available memory frames are divided equally among all processes. This approach is simple but might not be efficient, especially when different processes have varying memory requirements.</li>
+  <li><strong>Proportional Allocation:</strong> In this method, frames are allocated based on the size of each process's virtual memory. This approach aims to distribute memory more fairly by allocating more frames to larger processes and fewer to smaller ones. It considers the actual memory needs of each process.</li>
+  <li><strong>Variability with Multiprogramming Level:</strong> The frame allocation can vary with the level of multiprogramming. With an increase in multiprogramming level, each process might lose some frames to accommodate new processes, and vice versa.</li>
+  <li><strong>Consideration of Process Priorities:</strong> Both equal and proportional allocation methods can be adjusted to factor in the priorities of processes. In such scenarios, high-priority processes might be allocated more memory to expedite their execution, possibly at the cost of low-priority processes.</li>
+</ul>
+
+<p>This subsection highlights the importance of choosing an appropriate frame allocation algorithm based on the specific needs and characteristics of processes in a paging system. The goal is to balance efficiency, fairness, and the dynamic nature of process memory requirements.</p>
+
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=526">Source</a>
+
+<h3>10.5.3 Global Versus Local Allocation</h3>
+<p>This section examines two broad categories of page replacement and frame allocation strategies: global and local allocation, highlighting how they impact the overall system performance and efficiency in paging systems.</p>
+
+<ul>
+  <li><strong>Global Replacement:</strong> In global replacement, a process has the ability to select a replacement frame from the set of all frames, regardless of which process they are allocated to. This means a process can take a frame from another process. Such an approach offers flexibility and can potentially increase system throughput but may lead to variability in process performance due to its dependence on the overall system's paging behavior.</li>
+  <li><strong>Local Replacement:</strong> Local replacement restricts each process to choose replacement frames only from its own set of allocated frames. This strategy ensures that the performance of a process is solely dependent on its own paging behavior, offering more predictable and stable performance compared to global replacement. However, it might limit the availability of less-used memory pages to a process, potentially reducing overall system throughput.</li>
+  <li><strong>Trade-offs:</strong> Global replacement generally results in higher system throughput and is more commonly used. However, it can lead to performance unpredictability for individual processes. Local replacement, on the other hand, offers more stability in process performance but may not utilize the system's memory resources as effectively as global replacement.</li>
+</ul>
+
+<p>The choice between global and local frame allocation strategies is crucial in designing a paging system. It involves balancing the need for system throughput with the predictability and stability of process performance.</p>
+
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=527">Read more on PDF page 527</a>
+
+<h3>10.6 Thrashing</h3>
+<p>Thrashing is a condition in paging systems where a process spends more time paging than executing. This situation leads to severe performance degradation and is characterized by high paging activity.</p>
+
+<ul>
+  <li><strong>Definition and Cause:</strong> Thrashing occurs when a process does not have enough frames (i.e., the minimum number of frames it needs to support pages in its working set). As a result, the process constantly incurs page faults, leading to high paging activity. This situation arises when the operating system increases the degree of multiprogramming, but the available memory is insufficient to meet the needs of all processes.</li>
+  <li><strong>Effect on Performance:</strong> During thrashing, the system's CPU utilization drops sharply as the processes spend most of their time paging rather than executing. Thrashing leads to a plummet in system throughput.</li>
+  <li><strong>Managing Thrashing:</strong> To manage or limit the effects of thrashing, local replacement algorithms can be used. These algorithms restrict each process to select replacement frames from its own set of allocated frames. This prevents one process's thrashing from affecting another. However, this doesn't entirely solve the problem, as the overall effective access time increases due to increased paging activity.</li>
+</ul>
+
+<p>Understanding and mitigating thrashing is crucial in a paging system, as it directly impacts the efficiency and performance of the system. The key is to balance the degree of multiprogramming with the available memory resources to prevent processes from entering a state of thrashing.</p>
+
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=531">Read more on PDF page 531</a>
+
+
+
+</body>
+</html>
