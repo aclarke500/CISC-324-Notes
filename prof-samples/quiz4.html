@@ -6,10 +6,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../styles.css">
   <title>Document</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  <script>
+    function submitAnswer(topicNumber) {
+        const inputId = 'input-' + topicNumber;
+        const outputId = 'output-' + topicNumber;
+        const inputValue = document.getElementById(inputId).value; // get user text
+
+        document.getElementById(inputId).value = ''; // clear input box
+        document.getElementById(outputId).innerText = inputValue; // write to output div
+    }
+
+</script>
 </head>
 
 <body>
-  
+  <button onclick="test()">Baxter</button>
 <h1>Home</h1>
 <button onclick="window.location.href = '../index.html'">Back</button>
 <br>
@@ -17,16 +29,145 @@
 <p><strong>Question pattern</strong>: Short questions, matching, Diagram annotation, and/or Multiple choice</p>
 <p><strong>Topics Covered</strong>: Lecture slides of <strong>Week 9, Week 10 and Week 11&nbsp;</strong></p>
 
+<p>I suggest answering all these in a closed book format, and throwing your answers into GPT/comparing with a friend. From there, see what you don't understand and go read on that. Historically, the test quides have been very similair to the tests, so I would focus on thoroughly understanding the topics here. If you draw a blank at a question, take note and go read up on it further.</p>
 
-  <strong>1. What does frame allocation algorithm do?&nbsp;<br>2. Equal vs Proportional allocation algorithms<br>3.
-    Local vs global allocation<br>4. What is thrashing<br>5. What can we prevent thrashing?<br>6. Working set model vs
-    PFF model for thrashing prevention<br>7. Moving head disk mechanism<br>8. HDD disk structure<br>9. HDD vs SSD vs
-    Magnetic tape<br>10. Storage Area Network, Network-attached Network<br>11. Disk schedule algorithms<br>12. RAID
-    Structure<br>13. RAID 1+0 vs RAID 0+1<br>14. DISK read/write operation<br>15. Disk Capacity<br>16. Disk Access
-    time<br>17. Data transfer rate<br>18. I/O Hardware<br>19. PC Bus structure<br>20. Programmer I/O vs Direct Memory
-    Access<br>21. Kernel I/O structure&nbsp;<br>22. Characteristics of I/O devices<br>23. Nonblocking and Asynchronous
-    I/O<br>24. Vectored I/O<br>25. Device status table<br>26. I/O protection<br>27. I/O Performance
-    Issues&nbsp;</strong>
+<p id="topic-1"><strong>1. What does frame allocation algorithm do?</strong></p>
+<textarea id="input-1"></textarea>
+<button onclick="submitAnswer(1)">Submit</button>
+<div id="output-1"></div>
+
+<p id="topic-2"><strong>2. Equal vs Proportional allocation algorithms</strong></p>
+<textarea id="input-2"></textarea>
+<button onclick="submitAnswer(2)">Submit</button>
+<div id="output-2"></div>
+
+<p id="topic-3"><strong>3. Local vs global allocation</strong></p>
+<textarea id="input-3"></textarea>
+<button onclick="submitAnswer(3)">Submit</button>
+<div id="output-3"></div>
+
+<p id="topic-4"><strong>4. What is thrashing</strong></p>
+<textarea id="input-4"></textarea>
+<button onclick="submitAnswer(4)">Submit</button>
+<div id="output-4"></div>
+
+<p id="topic-5"><strong>5. What can we prevent thrashing?</strong></p>
+<textarea id="input-5"></textarea>
+<button onclick="submitAnswer(5)">Submit</button>
+<div id="output-5"></div>
+
+<p id="topic-6"><strong>6. Working set model vs PFF model for thrashing prevention</strong></p>
+<textarea id="input-6"></textarea>
+<button onclick="submitAnswer(6)">Submit</button>
+<div id="output-6"></div>
+
+<p id="topic-7"><strong>7. Moving head disk mechanism</strong></p>
+<textarea id="input-7"></textarea>
+<button onclick="submitAnswer(7)">Submit</button>
+<div id="output-7"></div>
+
+<p id="topic-8"><strong>8. HDD disk structure</strong></p>
+<textarea id="input-8"></textarea>
+<button onclick="submitAnswer(8)">Submit</button>
+<div id="output-8"></div>
+
+<p id="topic-9"><strong>9. HDD vs SSD vs Magnetic tape</strong></p>
+<textarea id="input-9"></textarea>
+<button onclick="submitAnswer(9)">Submit</button>
+<div id="output-9">hello</div>
+
+<p id="topic-10"><strong>10. Storage Area Network, Network-attached Network</strong></p>
+<textarea id="input-10"></textarea>
+<button onclick="submitAnswer(10)">Submit</button>
+<div id="output-10"></div>
+
+<p id="topic-11"><strong>11. Disk schedule algorithms</strong></p>
+<textarea id="input-11"></textarea>
+<button onclick="submitAnswer(11)">Submit</button>
+<div id="output-11"></div>
+
+<p id="topic-12"><strong>12. RAID Structure</strong></p>
+<textarea id="input-12"></textarea>
+<button onclick="submitAnswer(12)">Submit</button>
+<div id="output-12"></div>
+
+<p id="topic-13"><strong>13. RAID 1+0 vs RAID 0+1</strong></p>
+<textarea id="input-13"></textarea>
+<button onclick="submitAnswer(13)">Submit</button>
+<div id="output-13"></div>
+
+<p id="topic-14"><strong>14. DISK read/write operation</strong></p>
+<textarea id="input-14"></textarea>
+<button onclick="submitAnswer(14)">Submit</button>
+<div id="output-14"></div>
+
+<p id="topic-15"><strong>15. Disk Capacity</strong></p>
+<textarea id="input-15"></textarea>
+<button onclick="submitAnswer(15)">Submit</button>
+<div id="output-15"></div>
+
+<p id="topic-16"><strong>16. Disk Access time</strong></p>
+<textarea id="input-16"></textarea>
+<button onclick="submitAnswer(16)">Submit</button>
+<div id="output-16"></div>
+
+<p id="topic-17"><strong>17. Data transfer rate</strong></p>
+<textarea id="input-17"></textarea>
+<button onclick="submitAnswer(17)">Submit</button>
+<div id="output-17"></div>
+
+<p id="topic-18"><strong>18. I/O Hardware</strong></p>
+<textarea id="input-18"></textarea>
+<button onclick="submitAnswer(18)">Submit</button>
+<div id="output-18"></div>
+
+<p id="topic-19"><strong>19. PC Bus structure</strong></p>
+<textarea id="input-19"></textarea>
+<button onclick="submitAnswer(19)">Submit</button>
+<div id="output-19"></div>
+
+<p id="topic-20"><strong>20. Programmer I/O vs Direct Memory Access</strong></p>
+<textarea id="input-20"></textarea>
+<button onclick="submitAnswer(20)">Submit</button>
+<div id="output-20"></div>
+
+<p id="topic-21"><strong>21. Kernel I/O structure</strong></p>
+<textarea id="input-21"></textarea>
+<button onclick="submitAnswer(21)">Submit</button>
+<div id="output-21"></div>
+
+<p id="topic-22"><strong>22. Characteristics of I/O devices</strong></p>
+<textarea id="input-22"></textarea>
+<button onclick="submitAnswer(22)">Submit</button>
+<div id="output-22"></div>
+
+<p id="topic-23"><strong>23. Nonblocking and Asynchronous I/O</strong></p>
+<textarea id="input-23"></textarea>
+<button onclick="submitAnswer(23)">Submit</button>
+<div id="output-23"></div>
+
+<p id="topic-24"><strong>24. Vectored I/O</strong></p>
+<textarea id="input-24"></textarea>
+<button onclick="submitAnswer(24)">Submit</button>
+<div id="output-24"></div>
+
+<p id="topic-25"><strong>25. Device status table</strong></p>
+<textarea id="input-25"></textarea>
+<button onclick="submitAnswer(25)">Submit</button>
+<div id="output-25"></div>
+
+<p id="topic-26"><strong>26. I/O protection</strong></p>
+<textarea id="input-26"></textarea>
+<button onclick="submitAnswer(26)">Submit</button>
+<div id="output-26"></div>
+
+
+<p id="topic-27"><strong>27. I/O Performance Issues</strong></p>
+<textarea id="input-27"></textarea>
+<button onclick="submitAnswer(27)">Submit</button>
+<div id="output-27"></div>
+
+
 </body>
 
 </html>
