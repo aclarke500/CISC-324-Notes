@@ -21,6 +21,36 @@ img {
 
 }
 
+  /* General text color, assuming the background is dark */
+  body {
+    font-family: Arial, sans-serif;
+    /* A clean, sans-serif font */
+  }
+
+
+
+  /* Specific styling for h1 */
+  h1 {
+    font-size: 2.5em;
+    /* Larger font size for main headings */
+    margin-bottom: 0.5em;
+    /* Spacing below the heading */
+  }
+
+  /* Specific styling for h2 */
+  h2 {
+    font-size: 4em;
+    margin-bottom: 0.4em;
+  }
+  h3{
+    font-size: 1.5em;
+    margin-bottom: 0.4em;
+  }
+  h4{
+    font-size: 1.5em;
+    margin-bottom: 0.4em;
+  }
+
 ul {
   font-size: 0.9em;
   max-width: 100%;

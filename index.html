@@ -1,83 +1,96 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <title>Document</title>
+  <title>OS Study Site</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+<h1 class="centre">CISC 324 Study Site</h1>
+<h4 class="centre" id="about" onclick="window.location.href= '/about/about.html'">About</h4>
+
 <body>
-  <h1>Week 3</h1>
-  <button onclick="window.location.href = 'week3/chapter5.html'">Chapter 5</button>
-  <button onclick="window.location.href = 'week3/chapter6.html'">Chapter 6</button>
-  <button onclick="window.location.href = 'week3/SlideShit.html'"> Extra Shit from Slides</button>
-  <h1>Week 5</h1>
-  <button onclick="window.location.href = 'week5/chapter7.html'">Chapter 7</button>
-  <button onclick="window.location.href = 'week5/chapter8.html'">Chapter 8</button>
-  <h1>Week 6</h1>
-  <button onclick="window.location.href = 'week6/chapter8.html'">Chapter 8</button>
-  <button onclick="window.location.href = 'week6/chapter9.html'">Chapter 9</button>
-  <button onclick="window.location.href = 'week6/SlideShit.html'"> Extra Shit from Slides</button>
-  <h1> Week 7</h1>
+  <div class="week-container">
+    <h2 class="centre">Week 3</h2>
+    <button onclick="window.location.href = 'week3/chapter5.html'">Chapter 5</button>
+    <button onclick="window.location.href = 'week3/chapter6.html'">Chapter 6</button>
+    <button onclick="window.location.href = 'week3/SlideShit.html'"> Extra Shit from Slides</button>
+  </div>
+  <div class="week-container">
+    <h2 class="centre">Week 5</h2>
+    <button onclick="window.location.href = 'week5/chapter7.html'">Chapter 7</button>
+    <button onclick="window.location.href = 'week5/chapter8.html'">Chapter 8</button>
+  </div>
+  <div class="week-container">
+    <h2 class="centre">Week 6</h2>
+    <button onclick="window.location.href = 'week6/chapter8.html'">Chapter 8</button>
+    <button onclick="window.location.href = 'week6/chapter9.html'">Chapter 9</button>
+    <button onclick="window.location.href = 'week6/SlideShit.html'"> Extra Shit from Slides</button>
+  </div>
+<div class="week-container">
+  <h2 class="centre"> Week 7</h2>
   <button onclick="window.location.href = 'week7/chapter9.html'">Chapter 9</button>
-  <h1> Week 8</h1>
+  </div>
+  <div class="week-container">
+  <h2 class="centre"> Week 8</h2>
   <button onclick="window.location.href = 'week8/chapter10.html'">Chapter 10</button>
+  </div>
+  <div class="week-container">
+    <h2 class="centre">Week 9</h2>
+    <button onclick="window.location.href ='week9/chapter10.html'">Chapter 10</button>
+  </div>
 
 
-  <h1>Sample Questions</h1>
+  <h2>Sample Questions</h2>
   <button onclick="window.location.href = 'prof-samples/quiz2.html'">Quiz 2</button>
-  <button onclick="window.location.href = 'prof-samples/quiz3.html'">Quiz 3</button>
-  <h2>Github:</h2>
+  <button onclick="window.location.href = 'prof-samples/quiz3.html'">Quiz 3</button><br>
+  <button onclick="window.location.href = 'prof-samples/quiz4.html'">Quiz 4</button><br>
 
 
-  <p>This is an open source project by students for students. 
-    Feel free to make suggestions, edit the wording, styling (please) and I will update the site accordingly.
-    <a id="github" href="https://github.com/aclarke500/CISC-324-Notes">Github</a></p>
 </body>
+
 </html>
 
 <style>
+  .centre{
+   text-align: center; 
+  }
 
+  .week-container {
+    margin: 30px 37.5% 30px 37.5%;
+    text-align: center;
+    background-color: #000000;
+    border-radius: 1%;
+    border: solid 2px #ffe000;
+    width: 25%;
+    padding-bottom: 20px;
+  }
 
-#github{
-  color: green;
-  font-size: 25px;
-}
-body{
-  background-image: url(./assets/dalle1.png);
+  body {
+    background-image: url(./assets/dalle3.png);
+  }
 
-  /* background-color: #000000; */
+    /* Styling for all headings (h1, h2, h3, etc.) */
+    h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: #26fcff;
+    /* Pure white for headings */
+    text-shadow: 2px 2px 4px #000000;
+    /* Optional: text shadow for better legibility */
+  }
 
- /* display: none; */
-}
-/* General text color, assuming the background is dark */
-body {
-  color: #f8f8f8; /* Light grey for general text */
-  font-family: Arial, sans-serif; /* A clean, sans-serif font */
-}
+  #about:hover{
+    cursor: pointer;
+  }
 
-/* Styling for all headings (h1, h2, h3, etc.) */
-h1, h2, h3, h4, h5, h6 {
-  color: #26fcff; /* Pure white for headings */
-  text-shadow: 2px 2px 4px #000000; /* Optional: text shadow for better legibility */
-}
+  /* Specific styling for paragraph text */
+  p {
+    color: #dcdcdc;
+    /* A slightly dimmer white for paragraph to differentiate from headings */
 
-/* Specific styling for h1 */
-h1 {
-  font-size: 2.5em; /* Larger font size for main headings */
-  margin-bottom: 0.5em; /* Spacing below the heading */
-}
-
-/* Specific styling for h2 */
-h2 {
-  font-size: 2em;
-  margin-bottom: 0.4em;
-}
-
-/* Specific styling for paragraph text */
-p {
-  color: #dcdcdc; /* A slightly dimmer white for paragraph to differentiate from headings */
-
-}
-
+  }
 </style>
