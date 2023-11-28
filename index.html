@@ -10,6 +10,19 @@
 <h4 class="centre" id="about" onclick="window.location.href= 'about/about.html'">About</h4>
 
 <body>
+
+
+  <div class="quiz-container">
+    <h3>Sample Questions</h3>
+    <p id="quiz-text">Sample questions posted by the professor, usually representative of test material.</p>
+    <div class="quiz-button">
+    <button onclick="window.location.href = 'prof-samples/quiz2.html'">Quiz 2</button>
+    <button onclick="window.location.href = 'prof-samples/quiz3.html'">Quiz 3</button>
+    <button onclick="window.location.href = 'prof-samples/quiz4.html'">Quiz 4</button>
+  </div>
+  </div>
+
+
   <div class="week-container">
     <h2 class="centre">Week 3</h2>
     <button onclick="window.location.href = 'week3/chapter5.html'">Chapter 5</button>
@@ -54,10 +67,6 @@
   </div>
 
 
-  <h2>Sample Questions</h2>
-  <button onclick="window.location.href = 'prof-samples/quiz2.html'">Quiz 2</button>
-  <button onclick="window.location.href = 'prof-samples/quiz3.html'">Quiz 3</button><br>
-  <button onclick="window.location.href = 'prof-samples/quiz4.html'">Quiz 4</button><br>
 
 
 </body>
@@ -77,6 +86,22 @@
     border: solid 2px #ffe000;
     width: 25%;
     padding-bottom: 20px;
+  }
+
+  .quiz-container{
+    border: 2px solid #800000;
+    text-align: center;
+    background-color:#3e9779;
+    display: inline-block;
+    margin: 0px 37.5% 0px 37.5%;
+    width: 25%;
+    padding-bottom: 1%;
+  }
+  .quiz-button{
+    display: inline;
+    width: 25%;
+    text-align: center;
+    
   }
 
   body {
@@ -105,5 +130,9 @@
     color: #dcdcdc;
     /* A slightly dimmer white for paragraph to differentiate from headings */
 
+  }
+  #quiz-text{
+    color: black;
+    font-size: 15px;
   }
 </style>
