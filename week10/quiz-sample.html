@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 11 Quiz Sample</title>
+  <link rel="stylesheet" href="../styles.css">
+  <!-- add mufucking latex support -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+</head>
+<body>
+  <button onclick="location.href = '../index.html'">Back</button>
+  <p>The professor included a bunch of shit in the slides that isn't mentioned in the textbook. So I'm going to cover what is in the quiz sample topics here, as this is likely more of a priority. There are more discrepencies, this is just square 1.</p>
+
+  <h3>Moving Head Disk Mechanism</h3>
+<p>The moving-head disk mechanism is a key component of traditional hard disk drives (HDDs). This mechanism involves a set of read-write heads that are attached to an arm assembly. The heads move across the surface of the rotating disk platters to read or write data. Each platter has concentric circles called tracks, and the tracks are further divided into sectors. The arm assembly moves the heads to the track containing the desired sector, where data can be read or written.</p>
+<p>Seek time, a major component of disk access time, refers to the time it takes for the disk arm to move the heads to the correct track. Rotational latency is the additional time needed for the disk to spin the correct sector under the read-write head. Together, these mechanisms enable the HDD to access any block of data directly and rapidly, which is essential for the efficient operation of the disk.</p>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=575">Read more on PDF page 575</a>
+<img src="../assets/11-5.png" alt="name-jeff">
+
+
+  <h2>HDD Disk Structure</h2>
+  <p>
+      Hard Disk Drives (HDDs) are designed with platters that are flat, circular disks similar in appearance to CDs. Common platter diameters range from 1.8 to 3.5 inches. Both surfaces of a platter are magnetically coated to store data. Data is recorded and read by the read-write heads that "fly" just above each platter surface. The heads are mounted on a disk arm, moving all heads simultaneously. The surface of each platter is divided into circular tracks, further divided into sectors, with the set of tracks at one arm position forming a cylinder. A typical disk drive contains thousands of these cylinders, and each track holds hundreds of sectors. The smallest unit of transfer in a HDD is a sector, which was traditionally 512 bytes in size but has since moved to 4KB sectors around 2010. The disk drive motor spins the platters at high speeds, commonly ranging from 5,400 to 15,000 RPM (rotations per minute), with rotation speed affecting data transfer rates. The key performance aspect of HDDs is the random-access time, which includes the seek time (time to move the disk arm to the desired cylinder) and the rotational latency (time for the desired sector to rotate to the disk head).
+  </p>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=574">Source</a>
+
+
+  <section>
+    <h2>HDD vs SSD vs Magnetic Tape</h2>
+    <p>
+        Hard Disk Drives (HDDs), Solid State Drives (SSDs), and Magnetic Tapes are distinct types of storage media used in computer systems. HDDs use magnetic platters for data storage, making them susceptible to mechanical wear and tear. They have seek times and rotational latencies that can affect performance. In contrast, SSDs, which fall under Non-Volatile Memory (NVM) devices, store data on flash memory and have no moving parts, leading to faster access times and greater reliability compared to HDDs. However, SSDs are generally more expensive per megabyte and have less capacity than larger HDDs. On the other hand, Magnetic Tapes are used primarily for backup and storage of infrequently used information. They have slow access times compared to HDDs and SSDs, making them less suitable for secondary storage. Tapes offer large capacity storage and are useful for transferring information between systems or for keeping backup copies.
+    </p>
+    <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=579">Source</a>
+</section>
+
+<h3>Storage Area Network, Network-Attached Storage</h3>
+<p>Storage Area Networks (SANs) and Network-Attached Storage (NAS) are two methods of providing networked storage. SANs are high-speed networks that provide block-level network access to storage. They are typically used to connect servers with data storage devices. NAS provides file-based storage over a network. NAS devices are often standalone appliances that contain one or more hard drives.</p>
+<p>Both SANs and NAS provide ways to consolidate storage, improve efficiency and accessibility, and support a wide range of data management tasks.</p>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=576">Read more on PDF page 576</a>
+
+
+
+<section>
+  <h2>RAID Structure</h2>
+  <p>
+      RAID (Redundant Array of Independent Disks) structures offer enhanced data storage reliability and performance by combining multiple disk drives. RAID can be implemented in various forms, with each RAID level providing a balance between reliability and data transfer rates. The most common RAID levels are:
+  </p>
+  <ul>
+      <li><strong>RAID 0:</strong> Stripes data across drives without redundancy, offering high performance but no fault tolerance.</li>
+      <li><strong>RAID 1:</strong> Mirrors data across drives, providing high reliability and fast recovery.</li>
+      <li><strong>RAID 4 and 5:</strong> Use block-level striping with parity, with RAID 5 being the most common due to its efficient use of storage and fault tolerance.</li>
+      <li><strong>RAID 6:</strong> Similar to RAID 5 but with additional redundant data to protect against multiple drive failures.</li>
+      <li><strong>Multidimensional RAID 6:</strong> Extends RAID 6 by organizing drives into arrays and implementing RAID 6 horizontally and vertically, enhancing fault tolerance.</li>
+      <li><strong>RAID 0 + 1 and 1 + 0:</strong> Combine the performance of RAID 0 with the reliability of RAID 1, suitable for environments needing both attributes.</li>
+  </ul>
+  <p>
+      RAID can be implemented via volume-management software, host bus-adapter hardware, storage array hardware, or SAN interconnect layer. Each implementation offers different levels of cost, flexibility, and features. RAID is used not only for its higher data-transfer rates but also for its increased reliability. However, RAID is not immune to data loss due to software or hardware failures.
+  </p>
+  <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=602">Source</a>
+</section>
+
+
+  <h3>RAID 1+0 vs RAID 0+1</h3>
+
+  <h3>Disk Read Write Operation</h3>
+
+  <h3>Disk Capacity</h3>
+  <p>\(  \textbf{Disk Capacity}  = (\text{# of surfaces}) \cdot \text{# of tracks per surface } \cdot \text{# of sectors per trck} \cdot \text{(size of sector)} \)</p>
+  <p>Basically, you just multiply these properties together</p>
+  <h3>Disk Access Time</h3>
+  <p><strong>Seek Time: </strong> This is the time it takes for the head to move to the track</p>
+  <p><strong>Rotational Latency: </strong> This is the time it takes for the sector to rotate to the head, avg = 1/2 rotation time</p>
+  <p>= \( 60/RPM/2 \)</p>
+  <p><strong>Disk Access Time</strong> = seek time + rotational latency + data transfer rate + controller overhead + queing delay</p>
+  <p>Seems to be a simple sum of every parameter the might give you on the quiz</p>
+
+
+  <h3>Data Transfer Rate</h3>
+  <p>How to find it? Answer is typically MB/s</p>
+  <p>Example: Disk has 16 surfaces, 128 tracks/surface, 256 sectors per track, and 512 bytes sector, rotates at 3600RPM</p>
+  <p>Per track, we have RPM/60, or 3600/60 -> 60 rotations per second. We can do one rotation per surface, and each surface has multiple tracks.</p>
+  <p>So, in each 60th of a second, we can handle one entire track, which is the number of sectors per track, times the size of each sector. So here, in one second, we get 60 (rotations) * 256 (sectors per track) * 512 (bytes per track). We disregard the number of tracks per surface, because we can only read one track per rotation.</p>
+  <p>So, our final answer is 16(surfaces) * 60 (rotations per second) * 256 (sectors) * 512 (bytes per sector)</p>
+  
+  <!-- <p>The Data Transfer Rate of a storage device, often measured in megabytes per second (MB/s), is the rate at which data can be read from or written to the device. It is influenced by factors such as the device's rotational speed and the efficiency of data transfer mechanisms.</p>
+  <p>The transfer rate is the rate at which data flows between the drive and the computer. For HDDs, this rate is influenced by the disk drive's rotation speed (RPM) and the efficiency of its read/write mechanisms. Higher RPMs generally lead to faster transfer rates. However, the effective transfer rate can differ from the stated rates due to various overheads and operational characteristics of the storage device.</p>
+  <p>Effective Transfer Rate = Total Bytes Transferred / Total Time (including access latency)</p>
+  <p>Source: "Operating System Concepts" by Abraham Silberschatz, 10th Edition, <a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf">pages 610-611, 610, 574-575, 890, 875, 576-575, 650, 888-889, 630, 581-582, 637, 876, 43, 1204-1205, 1202-1203, 543, 1273, 70, 1273, 880-879</a>.</p> -->
+
+</body>
+</html>
