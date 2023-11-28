@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Week 11 Chapter 12</title>
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+  <button onclick="window.location.href = '../index.html'">Back</button><br>
+  
+
+  <h3>12.1 Overview</h3>
+<p>The control of devices connected to a computer is a significant aspect of operating-system design. The I/O subsystem of the kernel separates the complexities of managing I/O devices from the rest of the kernel. Due to the wide variance in I/O device function and speed (like a mouse, a hard disk, a flash drive, and a tape robot), varied methods are essential for efficient control.</p>
+
+<ul>
+  <li><strong>I/O-Device Technology Trends:</strong> There is an increasing standardization in software and hardware interfaces, facilitating the incorporation of improved device generations into existing computers.</li>
+  <li><strong>Overview of Chapter Objectives:</strong> The chapter aims to explore the structure of an operating system’s I/O subsystem, discuss principles and complexities of I/O hardware, and explain performance aspects of I/O hardware and software.</li>
+</ul>
+
+<p>Understanding the I/O systems is crucial for optimizing device control, managing the wide variety of I/O devices, and ensuring efficient data transfer and device operation within the computer system.</p>
+
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=619">Read more on PDF page 619</a>
+
+<h3>12.2 I/O Hardware</h3>
+<p>Section 12.2 discusses the intricacies and principles of I/O hardware in computer systems. Computers operate a great many kinds of devices that mostly fit into general categories such as storage devices, transmission devices, and human-interface devices. Despite the diversity of I/O devices, only a few fundamental concepts are needed to understand how these devices are attached and controlled.</p>
+
+<ul>
+  <li><strong>Device Communication:</strong> Devices communicate with a computer system by sending signals over a cable or through the air. Each device interacts with the computer through a connection point or port, such as a serial port.</li>
+  <li><strong>Standardization and Variety:</strong> There is an increasing trend towards standardization of software and hardware interfaces, facilitating the integration of new devices. However, the broad variety of I/O devices also poses challenges in their incorporation into existing systems.</li>
+  <li><strong>Hardware Elements:</strong> Basic I/O hardware elements include ports, buses, and device controllers that accommodate a wide variety of I/O devices. The operating system's kernel uses device-driver modules to encapsulate the details of different devices, providing a uniform device-access interface to the I/O subsystem.</li>
+  <li><strong>Device Drivers:</strong> These are essential for the operating system to interact with different hardware devices. They present a uniform device-access interface to the I/O subsystem, similar to how system calls provide a standard interface between the application and the operating system.</li>
+</ul>
+
+<p>This section emphasizes the importance of understanding I/O hardware to manage the diversity of devices efficiently and ensure effective data communication within computer systems.</p>
+
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=618">Read more on PDF page 618</a>
+
+<h3>12.2.1 Memory Mapped I/O</h3>
+<p>Basically, the IO devices have some reserved registers in the address space of the processor. So the I/O knows it can read from these spots, and the computer knows to write there in order to communicate with that IO device. It's like a partition of an array.</p>
+
+<ul>
+  <li><strong>Implementation:</strong> In memory-mapped I/O, device-control registers are treated as memory addresses. This means that the processor can access these registers using regular memory instructions rather than specialized I/O instructions.</li>
+  <li><strong>Advantages:</strong> This approach simplifies the I/O process, making it more efficient and faster, as it minimizes the need for special I/O instructions and the associated overhead.</li>
+  <li><strong>Graphics Controllers:</strong> A common use of memory-mapped I/O is in graphics controllers, where a large memory-mapped region holds screen contents. Writing data into this region updates the display, making this process faster than issuing multiple I/O instructions.</li>
+  <li><strong>Efficiency:</strong> Memory-mapped I/O is particularly efficient for devices that need to transfer large amounts of data quickly, such as graphics cards.</li>
+  <li><strong>Integration with Virtual Memory:</strong> Memory-mapped I/O can be integrated with a system's virtual memory management, further enhancing its efficiency and ease of use.</li>
+</ul>
+
+<p>Memory Mapped I/O represents a streamlined and efficient approach to handling I/O, particularly beneficial for high-speed data transfer devices.</p>
+<img src="../assets/11-9.png" alt="">
+<p>Example of typical locations for memory maps</p>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=620">Read more on PDF page 620</a>
+
+<h3>12.2.2 Polling</h3>
+<p>Polling is a method used in I/O systems to check the status of an I/O device. It involves the CPU actively sampling the status of an external device to determine if it is ready for an I/O operation.</p>
+
+<ul>
+  <li><strong>Basic Mechanism:</strong> In polling, the CPU repeatedly reads a device's status register at regular intervals. The status register indicates whether the device is ready to send or receive data.</li>
+  <li><strong>Efficiency:</strong> Polling can be efficient for devices that need to be serviced quickly, such as streaming data from a serial port. However, it becomes inefficient if it is attempted repeatedly but rarely finds a device ready for service, while other CPU processing remains undone.</li>
+  <li><strong>Use Cases:</strong> It is commonly used for devices that have a high data throughput or require immediate attention, as it allows the CPU to quickly respond to the device's readiness.</li>
+  <li><strong>Comparison with Interrupts:</strong> Unlike interrupt-driven I/O, where the device notifies the CPU when it's ready, polling requires the CPU to actively check the device's status. This can lead to inefficiency, as the CPU might be checking the status of devices that are not ready, wasting CPU cycles.</li>
+  <li><strong>Context of Use:</strong> Polling is more commonly used in environments where the I/O rate is high enough that the likelihood of a device being ready is greater than not, making the polling process more efficient.</li>
+</ul>
+
+<p>Polling is a straightforward technique for managing I/O but can lead to inefficiencies in CPU utilization, especially in systems where I/O devices are not frequently ready for data transfer.</p>
+
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=494">Read more on PDF page 494</a>
+
+<h3>12.2.3 Interrupts</h3>
+<p>Interrupts are a critical mechanism in modern operating systems, allowing the system to respond to asynchronous events such as input from a device or hardware faults.</p>
+
+<ul>
+  <li><strong>Basic Mechanism:</strong> When a device needs the CPU's attention, it sends a signal via the interrupt-request line. After executing each instruction, the CPU checks this line. If an interrupt request is detected, the CPU saves its current state and jumps to an interrupt handler routine at a fixed memory address.</li>
+  <li><strong>Handling Interrupts:</strong> The interrupt handler determines the cause of the interrupt, processes it, restores the saved state, and returns control to the interrupted task. This process is essential for time-sensitive tasks such as handling I/O requests.</li>
+  <li><strong>Efficiency:</strong> Efficient interrupt handling is vital for good system performance, particularly in systems with high-frequency interrupts. A typical desktop computer can handle thousands of interrupts per second.</li>
+  <li><strong>Priority Levels:</strong> Modern computers use a system of interrupt priorities, allowing the most urgent tasks to be handled first. This prioritization ensures that crucial operations are not delayed by less urgent tasks.</li>
+  <li><strong>Interrupt Vector:</strong> Most architectures use an interrupt vector—a table of pointers to interrupt handlers—to efficiently dispatch the correct handler for each interrupt.</li>
+  <li><strong>Maskable and Nonmaskable Interrupts:</strong> CPUs usually have two types of interrupt lines—maskable and nonmaskable. The maskable interrupt can be turned off by the CPU, while the nonmaskable interrupt is reserved for critical events like unrecoverable memory errors.</li>
+</ul>
+
+<p>Interrupts are fundamental to the interaction between hardware and the operating system, enabling the system to efficiently manage and respond to a variety of events and requests.</p>
+
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=622">Read more on PDF page 622</a>
+<h3>12.2.4 Direct Memory Access</h3>
+<p>Direct Memory Access (DMA) is a technique used in computers to transfer data directly between an I/O device and the main memory, bypassing the CPU to speed up memory operations. It is particularly useful for devices that perform large data transfers, such as disk drives.</p>
+<ul>
+    <li><strong>Basic Concept:</strong> DMA allows the device controller to transfer a block of data directly to or from the main memory without CPU intervention, reducing the CPU's workload.</li>
+    <li><strong>Setup Process:</strong> The process involves setting up buffers, pointers, and counters for the I/O device.</li>
+    <li><strong>Interruption:</strong> DMA reduces the number of interrupts (one per block) compared to one interrupt per byte in slower devices, enabling the CPU to perform other tasks.</li>
+    <li><strong>Efficiency:</strong> It increases efficiency, especially in high-end systems using switch architecture, where multiple components can concurrently communicate without competing for cycles on a shared bus.</li>
+    <li><strong>Role of DMA Controller:</strong> The DMA controller plays a critical role in initiating DMA transfers, offloading work from the main CPU and managing the transfer of data.</li>
+    <li><strong>Memory Bus Seizure:</strong> During DMA transfers, the DMA controller temporarily seizes the memory bus, momentarily preventing the CPU from accessing main memory but not its caches.</li>
+    <li><strong>Direct Virtual Memory Access (DVMA):</strong> Some architectures use DVMA, which allows transfers using virtual addresses that translate to physical addresses, enhancing performance in memory-mapped devices.</li>
+    <li><strong>Advantages:</strong> Overall, DMA improves total system performance despite the potential slowdown of CPU computation due to cycle stealing.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=626">Read more</a>
+
+
+<h3>12.2.5 I/O Hardware Summary</h3>
+<p>This section summarizes the main concepts of Input/Output (I/O) hardware in operating systems, focusing on the basic elements and their roles in I/O operations.</p>
+<ul>
+    <li><strong>Key Elements:</strong> The basic elements in I/O hardware include buses, controllers, I/O ports and their registers, and the interaction between device controllers and the host.</li>
+    <li><strong>Handshaking:</strong> The handshaking process between a device controller and the host, which can be executed either in a polling loop or via interrupts.</li>
+    <li><strong>DMA Controller:</strong> For large data transfers, the work is offloaded to a DMA controller, which handles the data transfer between devices and main memory efficiently.</li>
+    <li><strong>Device Varieties:</strong> The wide variety of devices poses challenges in operating-system design, each with its own capabilities, control-bit definitions, and interaction protocols.</li>
+    <li><strong>Uniform I/O Interface:</strong> The operating system's kernel is structured to use device-driver modules to encapsulate the details of different devices, providing a uniform device-access interface to the I/O subsystem.</li>
+    <li><strong>Communication Methods:</strong> Devices communicate with a computer system by sending signals over a connection point or port, such as a serial port.</li>
+    <li><strong>Performance Considerations:</strong> I/O hardware performance is influenced by the speed of NVM devices, with modern developments increasing pressure on I/O subsystems to utilize read/write speeds effectively.</li>
+    <li><strong>Device Characteristics:</strong> I/O devices vary in data-transfer modes (character vs. block), access methods (sequential vs. random), transfer schedules (synchronous vs. asynchronous), and I/O direction (read-only, write-only, read-write).</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=628">Read more</a>
+
+
+<h3>12.3 Application I/O Interface</h3>
+<p>The Application I/O Interface in operating systems provides a standardized way for applications to interact with I/O devices, despite the wide variety of these devices and their different capabilities.</p>
+<ul>
+    <li><strong>Uniform Interface:</strong> The operating system conceals the complexities of different I/O devices by providing a uniform interface for application access.</li>
+    <li><strong>Device Categories:</strong> Devices are grouped into conventional types like block I/O, character-stream I/O, memory-mapped file access, and network sockets.</li>
+    <li><strong>System Calls:</strong> Special system calls are provided for accessing devices like clocks, timers, and graphical display, video, and audio devices.</li>
+    <li><strong>Network Device Interface:</strong> Operating systems typically provide a different interface for network devices compared to disk devices, with common interfaces including network sockets.</li>
+    <li><strong>Clocks and Timers:</strong> Hardware clocks and timers in computers provide functions such as giving current time, elapsed time, and setting timers for operations.</li>
+    <li><strong>Data Transfer Directions:</strong> Some devices support bidirectional data transfer, while others are limited to a single direction. This affects how the operating system manages them.</li>
+    <li><strong>Access Styles:</strong> Devices are accessed in styles suited to their nature, e.g., block devices through read/write/seek commands, character-stream devices for input/output spontaneously generated data.</li>
+    <li><strong>Optimizing I/O Requests:</strong> The operating system optimizes I/O requests, such as scheduling disk requests to reduce travel distance of the disk arm, improving overall efficiency and response time.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=628">Read more</a>
+
+<h3>12.3.4 Non-blocking and Asynchronous I/O</h3>
+<p>Non-blocking and Asynchronous I/O are critical concepts in modern operating systems, allowing for efficient management of I/O operations without halting the execution of threads.</p>
+<ul>
+    <li><strong>Non-blocking I/O:</strong> In non-blocking I/O, system calls like read() return immediately with whatever data are available, which may be less than requested or none at all. This type of I/O does not suspend the execution of the calling thread.</li>
+    <li><strong>Asynchronous I/O:</strong> Asynchronous I/O system calls request a data transfer that will be completed in the future. The thread continues its execution without waiting for the I/O completion. Completion of the I/O is communicated through various mechanisms like setting a variable, triggering a signal, or executing a callback routine.</li>
+    <li><strong>Application Use Cases:</strong> Non-blocking and asynchronous I/O are especially useful in user interfaces and video applications where input is spontaneous or output needs to be continuously updated.</li>
+    <li><strong>System-Level Implementation:</strong> These I/O methods are often used within the operating system itself for managing secondary storage and network I/O efficiently.</li>
+    <li><strong>Overlap of Execution:</strong> Applications can overlap execution with I/O using multithreading, where some threads perform blocking system calls while others continue execution.</li>
+    <li><strong>Buffering and System Failure:</strong> Operating systems may buffer asynchronous I/O requests. If a system failure occurs before the request completion, "in-flight" requests may be lost.</li>
+    <li><strong>Ensuring Data Consistency:</strong> The kernel ensures data consistency by reading data from buffers before issuing I/O requests to devices.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=634">Read more</a>
+
+<h3>12.3.5 Vectored I/O</h3>
+<p>Vectored I/O is a method provided by some operating systems to perform multiple I/O operations involving multiple locations with a single system call.</p>
+<p>Basically you take a system call, and pass in a list of pointers, and they are all read/written. For instance, the colours on your monitor, or the values of the keys on your keyboard.</p>
+<ul>
+    <li><strong>Concept:</strong> Vectored I/O allows one system call to execute multiple I/O operations across multiple buffers, either reading from a source into a vector of buffers or writing from a vector to a destination.</li>
+    <li><strong>Efficiency:</strong> This method can replace several individual invocations of system calls, optimizing the process by reducing the number of system calls required for multiple I/O operations.</li>
+    <li><strong>Scatter-Gather Method:</strong> Vectored I/O is also known as the scatter-gather method. It is particularly useful for applications that need to perform complex I/O operations involving different memory areas.</li>
+    <li><strong>Use Cases:</strong> Vectored I/O is beneficial in situations where data is distributed across multiple buffers and needs to be gathered for a single write operation or dispersed after a single read operation.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=635">Read more</a>
+
+<h3>12.4 Kernel I/O Subsystem</h3>
+<p>The Kernel I/O Subsystem in operating systems is a critical component that manages various aspects of I/O operations and device interactions.</p>
+<ul>
+    <li><strong>I/O Scheduling:</strong> Determines the order of I/O requests execution to improve system performance, fairness, and reduce waiting times.</li>
+    <li><strong>Buffering:</strong> Involves storing data in memory while transferring between devices and the CPU or within different areas of a device.</li>
+    <li><strong>Caching:</strong> Involves storing parts of data in faster storage to improve access times and system efficiency.</li>
+    <li><strong>Spooling and Device Reservation:</strong> Used to manage data destined for devices that cannot accept interleaved data streams.</li>
+    <li><strong>Error Handling:</strong> Responsible for taking the necessary actions when an I/O request fails or encounters problems.</li>
+    <li><strong>Device Status Monitoring:</strong> Involves tracking the status of different I/O devices and their operations.</li>
+    <li><strong>Device Driver Interface:</strong> Provides an abstraction layer between the hardware and software aspects of the system.</li>
+    <li><strong>Power Management:</strong> Controls power usage and management for I/O devices, which is crucial for portable and battery-powered devices.</li>
+    <li><strong>Overall Function:</strong> Coordinates a wide array of services available to applications and the kernel, managing files, devices, access control, operation control, and device allocation.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=644">Read more</a>
+
+
+<h3>12.4.6 I/O Protection</h3>
+<p>I/O Protection is crucial in operating systems to prevent unauthorized or erroneous use of I/O operations that could disrupt system functioning.</p>
+<ul>
+    <li><strong>Privileged I/O Instructions:</strong> I/O instructions are defined as privileged to prevent direct issuance by user programs. Users must perform I/O operations through the operating system via system calls.</li>
+    <li><strong>System Call Mechanism:</strong> Users request the operating system to perform I/O on their behalf through system calls, ensuring a controlled and protected environment for I/O operations.</li>
+    <li><strong>Protection Against Disruptions:</strong> The approach safeguards the system from accidental or intentional disruptions by unauthorized I/O instructions from user processes.</li>
+    <li><strong>Error Handling and Protection:</strong> Errors in I/O are closely related to protection issues. Operating systems use various mechanisms to detect and manage errors effectively.</li>
+    <li><strong>Importance in System Stability:</strong> Ensuring proper I/O protection is vital for maintaining the overall stability and reliability of the computer system.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf$page=640">Read more</a>
+
+<h3>12.7 Performance</h3>
+<p>Performance in operating systems, particularly in relation to I/O, is a crucial area impacting overall system efficiency and effectiveness.</p>
+<ul>
+    <li><strong>Performance Monitoring:</strong> Involves the use of tools and techniques for monitoring system performance to identify and rectify bottlenecks.</li>
+    <li><strong>Effect of I/O on Performance:</strong> Disks and other I/O devices often represent a major bottleneck, influencing the system's performance.</li>
+    <li><strong>Performance Improvements:</strong> Can be achieved through better data structures, algorithms, and critical routines like interrupt handlers, I/O manager, memory manager, and CPU scheduler.</li>
+    <li><strong>Efficiency and Storage Use:</strong> Efficiency in storage use depends on allocation and directory management, with the goal of optimizing performance while using storage devices.</li>
+    <li><strong>File System Performance:</strong> Involves improving performance in file systems, which is critical due to the slower speeds of disks compared to CPU and main memory.</li>
+    <li><strong>Dynamic Allocation of Kernel Structures:</strong> Modern operating systems dynamically allocate kernel structures, like the process table and the open-file table, to eliminate limits on system performance.</li>
+    <li><strong>Optimization Techniques:</strong> The use of techniques like asynchronous I/O, optimized protocols for networks, and sophisticated caching can significantly improve system performance.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=713">Read more</a>
+
+
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RAID</title>
+  <link rel="stylesheet" href="../styles.css">
+  <!-- add latex support -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+</head>
+<body>
+  <button onclick="window.location.href ='../index.html'">Back</button>
+  
+  <h3>11.8 RAID Structure</h3>
+<p>RAID (Redundant Array of Independent Disks) refers to a data storage system that uses multiple disk drives to improve reliability and performance. The RAID structure introduces various levels and configurations to achieve different performance and reliability goals.</p>
+<ul>
+    <li><strong>Basic Concept:</strong> RAID combines multiple physical disk drives into a single logical unit for improved performance, data redundancy, or both.</li>
+    <li><strong>Variations:</strong> RAID levels vary in their design and purpose, offering different balances of performance, reliability, and cost.</li>
+    <li><strong>Implementation:</strong> RAID can be implemented through volume-management software, hardware in the host bus-adapter (HBA), or in storage array hardware.</li>
+    <li><strong>RAID Levels:</strong> Includes RAID 0 (striping without redundancy), RAID 1 (mirroring), RAID 4 (block-level striping with dedicated parity), among others.</li>
+    <li><strong>Extensions:</strong> RAID concepts have been extended to other storage mediums like tape arrays and wireless data broadcast systems.</li>
+    <li><strong>Problems with RAID:</strong> Despite its benefits, RAID does not protect against all types of data loss, such as software errors, incomplete writes, or hardware RAID controller failures.</li>
+    <li><strong>Selecting RAID Levels:</strong> The choice of RAID level depends on factors like rebuild performance, cost, and the specific data reliability requirements of the system.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=602">Read more</a>
+
+
+<h3>11.8.1 Improvement of Reliability via RAID</h3>
+<p>RAID significantly improves data storage reliability through redundancy, addressing the risk of data loss due to drive failures.</p>
+<ul>
+    <li><strong>Reliability through Redundancy:</strong> RAID enhances reliability by storing extra information, allowing data recovery in the event of a disk failure.</li>
+    <li><strong>Mean Time Between Failures (MTBF):</strong> The MTBF for a single disk is significantly lower than that for a RAID array, as the failure of one disk in a RAID setup does not result in data loss.</li>
+    <li><strong>Mirroring and Redundancy:</strong> The simplest form of redundancy in RAID is disk mirroring (RAID 1), where every write is carried out on two drives, creating a mirrored volume.</li>
+    <li><strong>Protection Against Power Failures:</strong> RAID also addresses issues like power failures during write operations, using techniques like write-back cache or solid-state nonvolatile cache.</li>
+    <li><strong>Other Considerations:</strong> While RAID significantly reduces the chance of data loss due to hardware failure, it does not protect against all types of data loss, such as software errors or natural disasters.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=597">Read more</a>
+<h3>11.8.2 Improvement in Performance via Parallelism</h3>
+<p>RAID arrays utilize parallelism to significantly enhance performance, particularly in terms of data transfer rates and handling multiple read and write requests.</p>
+<ul>
+    <li><strong>Mirroring and Read Performance:</strong> RAID mirroring (RAID 1) can double the rate at which read requests are handled, as reads can be directed to either of the mirrored drives.</li>
+    <li><strong>Data Striping:</strong> Data striping, as used in RAID 0, involves distributing data across multiple drives, thereby improving data transfer rates. Bit-level striping splits the bits of each byte across multiple drives.</li>
+    <li><strong>Enhanced Transfer Rates:</strong> With multiple drives, RAID can increase transfer rates by distributing data across the drives, improving performance compared to single-drive systems.</li>
+    <li><strong>Balance Between Reliability and Performance:</strong> RAID arrays offer a balance between improved performance and data reliability, with different RAID levels catering to varying needs.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=599">Read more</a>
+
+
+<h3>11.8.3 RAID Levels</h3>
+<p>RAID levels offer various combinations of performance, reliability, and storage efficiency. Each RAID level represents a different configuration of disk striping, mirroring, and parity.</p>
+<ul>
+    <li><strong>RAID Level 0:</strong> Involves striping at the block level but without redundancy. It offers high data-transfer rates but no fault tolerance.</li>
+    <li><strong>RAID Level 1:</strong> Known as mirroring, it duplicates data on two drives, providing high reliability and fast recovery but with higher storage cost.</li>
+    <li><strong>RAID Level 4:</strong> Uses block-level striping with a dedicated drive for storing parity information, providing fault tolerance with a lower storage overhead compared to mirroring.</li>
+    <li><strong>RAID Level 5:</strong> Similar to RAID 4 but distributes parity among all drives, avoiding potential bottlenecks of a single parity drive and is the most common parity RAID.</li>
+    <li><strong>RAID Level 6:</strong> Offers additional redundancy by using two parity blocks, allowing the system to tolerate two simultaneous drive failures.</li>
+    <li><strong>Multidimensional RAID Level 6:</strong> Arranges drives in a multidimensional array and implements RAID 6 both horizontally and vertically, enhancing failure recovery capabilities.</li>
+    <li><strong>RAID Levels 0+1 and 1+0:</strong> Combine the performance of RAID 0 with the redundancy of RAID 1, suitable for environments where both performance and reliability are crucial.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=600">Read more</a>
+
+
+<h3>11.8.4 Selecting a RAID Level</h3>
+<p>Selecting the right RAID level is a critical decision for system designers, influenced by factors like rebuild performance, data availability, application type, and cost-effectiveness.</p>
+<ul>
+    <li><strong>Rebuild Performance:</strong> This is a key consideration. The time required to rebuild a RAID array varies with the RAID level. For instance, RAID 1 rebuilds are quicker as they involve copying data from the mirrored drive. In contrast, RAID 5 rebuilds can take hours, especially for large drive sets, as data needs to be reconstructed from parity information stored across all drives.</li>
+    <li><strong>RAID Level 0:</strong> Chosen for high-performance applications where immediate data loss is not a critical concern. It offers superior data-transfer rates but lacks redundancy, making it unsuitable for systems where data reliability is paramount.</li>
+    <li><strong>RAID Level 1:</strong> Ideal for applications requiring high reliability. It provides fast recovery through mirroring but incurs higher storage costs due to duplicating data on two drives.</li>
+    <li><strong>Innovative RAID Implementations:</strong> Some modern storage arrays, like HP 3Par's InServ, do not require drives to be configured at a specific RAID level. Instead, they use "chunklets" that allow drives to participate in multiple RAID levels, enhancing flexibility and efficiency.</li>
+    <li><strong>Cost-Performance Trade-off:</strong> Selecting a RAID level often involves balancing additional storage costs against desired levels of performance and reliability.</li>
+    <li><strong>Hot Spares:</strong> Implementing hot spare drives is crucial in RAID configurations. These drives are not used for data but are ready to replace failed drives, thus allowing for automatic rebuild of the RAID level without human intervention.</li>
+    <li><strong>Application-Specific Needs:</strong> The choice of RAID level also depends on the specific requirements of the application. For example, RAID 0 is suitable for scientific computing where data can be reloaded after a repair, while RAID 1 is preferred for applications requiring quick data recovery.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=604">Read more</a>
+
+
+<h3>11.8.5 Extensions</h3>
+<p>The concepts of RAID have been extended beyond traditional hard disk drives to other storage mediums and technologies, demonstrating the adaptability and ongoing evolution of RAID structures.</p>
+<ul>
+    <li><strong>Generalization to Other Storage Devices:</strong> RAID structures have been applied to arrays of tapes and even to wireless data broadcast systems. This demonstrates the versatility of RAID principles beyond just hard disk storage.</li>
+    <li><strong>Data Recovery in Tape Arrays:</strong> When applied to tape arrays, RAID can recover data even if one of the tapes in the array is damaged, enhancing data reliability in tape-based storage systems.</li>
+    <li><strong>Application in Data Broadcast:</strong> In data broadcast scenarios, a block of data is split into short units and broadcast along with a parity unit. If a unit is not received, it can be reconstructed using the parity unit, ensuring data integrity in wireless transmissions.</li>
+    <li><strong>Innovative Applications:</strong> The extension of RAID to these diverse environments underscores its foundational role in ensuring data reliability and integrity across various data storage and transmission scenarios.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=605">Read more</a>
+
+
+<h3>11.8.6 Problems with RAID</h3>
+<p>While RAID provides significant benefits in terms of reliability and performance, there are several issues and limitations associated with its use.</p>
+<ul>
+    <li><strong>Limited Protection:</strong> RAID primarily protects against physical media errors but does not guard against all types of data loss. For example, it does not protect against software errors, incomplete writes, or system-level failures.</li>
+    <li><strong>File System Corruption:</strong> Issues like incorrect file pointers or "torn writes" can lead to file system corruption. RAID cannot prevent these types of errors, which can result in data loss or corruption.</li>
+    <li><strong>Controller Failures:</strong> Hardware RAID controller failures or bugs in software RAID code can lead to significant data loss, sometimes even more severe than disk failures themselves.</li>
+    <li><strong>Other Considerations:</strong> RAID does not protect against power failures during write operations, which can lead to inconsistent states between mirrored drives.</li>
+</ul>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=606">Read more</a>
+
+
+
+<h1>Mention in Quiz Sample: </h1>
+
+<h3>RAID 1+0 vs RAID 0+1</h3>
+<p>RAID 1+0 and RAID 0+1 are both combinations of RAID 1 (mirroring) and RAID 0 (striping) but differ in the way they arrange the disks and handle data.</p>
+<ul>
+    <li>
+        <strong>RAID 0+1 (Stripe of Mirrors):</strong> In RAID 0+1, data is first mirrored and then these mirrors are striped. It creates a set of drives that are mirrored and stripes across these mirrored sets.
+        <ul>
+            <li><strong>Fault Tolerance:</strong> If a single drive fails, the entire stripe containing the mirror of the failed drive becomes inaccessible, leaving only the other stripe.</li>
+            <li><strong>Recovery:</strong> Requires rebuilding the entire stripe in case of a drive failure.</li>
+            <li><strong>Cost and Efficiency:</strong> Offers good performance but is relatively expensive due to doubling the number of drives needed for storage.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>RAID 1+0 (Mirror of Stripes):</strong> RAID 1+0 mirrors a set of striped drives. It stripes data across multiple drives and then mirrors this set of stripes.
+        <ul>
+            <li><strong>Fault Tolerance:</strong> More fault-tolerant than RAID 0+1. If a single drive fails, only the mirror of the failed drive is affected. The remaining drives continue to operate.</li>
+            <li><strong>Recovery:</strong> More efficient recovery process. Only the failed drive in the mirrored pair needs to be replaced and rebuilt.</li>
+            <li><strong>Advantages Over RAID 0+1:</strong> With RAID 1+0, the system retains fault tolerance even if multiple drives fail, as long as no two failed drives are in the same mirrored pair.</li>
+        </ul>
+    </li>
+</ul>
+<p>Both RAID 0+1 and RAID 1+0 are commonly used in environments where both performance and reliability are crucial. However, RAID 1+0 is generally preferred over RAID 0+1 due to its superior fault tolerance and more efficient recovery process.</p>
+
+
+<h3>Explanation of Striping in RAID</h3>
+<p>Striping is a key technique used in RAID (Redundant Array of Independent Disks) systems to improve performance by distributing data across multiple disks.</p>
+<ul>
+    <li><strong>Basic Concept:</strong> Striping involves splitting data into units and distributing these units across multiple disks in the array. This distribution allows multiple drives to work simultaneously, improving the overall system performance.</li>
+    <li><strong>Types of Striping:</strong> There are different levels of striping, such as bit-level and block-level.
+        <ul>
+            <li><strong>Bit-Level Striping:</strong> In bit-level striping, bits of each byte of data are distributed across multiple drives. For instance, with an array of eight drives, each bit of a byte is written to a separate drive. This method enhances the data access rate by allowing simultaneous read or write operations across multiple drives.</li>
+            <li><strong>Block-Level Striping:</strong> Block-level striping involves distributing blocks of a file across multiple drives. For example, with 'n' drives, block 'i' of a file goes to drive '(i mod n) + 1'. This method is more commonly used and is ideal for handling large data files efficiently.</li>
+        </ul>
+    </li>
+    <li><strong>Goals of Striping:</strong> The primary goals of striping are to increase the throughput of multiple small accesses by load balancing and to reduce the response time for large data accesses.</li>
+    <li><strong>Performance Improvement:</strong> Striping can significantly enhance data-transfer rates. However, it does not inherently improve data reliability. Additional mechanisms like parity bits or mirroring are required for fault tolerance and data protection.</li>
+    <li><strong>Application in RAID Levels:</strong> Striping is a fundamental aspect of various RAID levels, most notably RAID 0, which solely relies on striping for performance improvement without redundancy.</li>
+</ul>
+<p>Striping in RAID is critical for enhancing the speed and efficiency of data storage and retrieval, making it an essential technique in modern storage systems.</p>
+<a href="https://os.ecci.ucr.ac.cr/slides/Abraham-Silberschatz-Operating-System-Concepts-10th-2018.pdf#page=599">Read more</a>
+
+
+</body>
+
+</html>
